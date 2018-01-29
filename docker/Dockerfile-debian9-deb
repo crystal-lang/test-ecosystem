@@ -1,4 +1,4 @@
-FROM debian:8 AS debian
+FROM debian:9 AS debian
 
 RUN apt-get update \
  && apt-get install -y git build-essential pkg-config \
@@ -7,10 +7,10 @@ RUN apt-get update \
 
 ARG crystal_deb
 ADD ${crystal_deb} /tmp/crystal.deb
-RUN dpkg -i /tmp/crystal.deb \
+RUN dpkg --force-bad-version -i /tmp/crystal.deb \
  && apt-get install -f
 
 ENV REPOS_DIR /repos
-ADD test/setup /setup
+ADD ./setup /setup
 RUN /setup/00-install-bats.sh
-RUN /setup/01-clone-repos.sh
+RUN /setup/10-clone-repos.sh

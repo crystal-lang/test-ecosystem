@@ -5,16 +5,13 @@ RUN apt-get update \
     libpcre3-dev libevent-dev \
     libxml2-dev libyaml-dev libssl-dev zlib1g-dev libsqlite3-dev
 
-ARG crystal_tar_gz
-# URL without untar
-# ADD ${crystal_tar_gz} /tmp/crystal.tar.gz
-# Local files without untar
-COPY ${crystal_tar_gz} /tmp/crystal.tar.gz
-ENV PATH=${PATH}:/tmp/crystal/bin
+ARG crystal_targz
+COPY ${crystal_targz} /tmp/crystal.tar.gz
+ENV PATH=/tmp/crystal/bin:/tmp/crystal/embedded/bin:${PATH}
 RUN mkdir -p /tmp/crystal \
  && tar xz -f /tmp/crystal.tar.gz -C /tmp/crystal --strip-component=1
 
 ENV REPOS_DIR /repos
-ADD test/setup /setup
-RUN /setup/00-install-bats.sh
-RUN /setup/01-clone-repos.sh
+ADD ./setup /setup
+RUN /bin/bash -c '/setup/00-install-bats.sh'
+RUN /bin/bash -c '/setup/10-clone-repos.sh'

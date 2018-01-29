@@ -1,6 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
+pushd ~
 git clone https://github.com/sstephenson/bats.git
-cd bats
+pushd bats
 ./install.sh /usr/local
+popd
+popd
