@@ -14,10 +14,3 @@ Vagrant.configure("2") do |config|
     end
   end
 end
-
-
-# sudo ./setup/00-install-bats.sh
-# REPOS_DIR=/tmp/repos ./setup/10-clone-repos.sh
-# make crystal/crystal_amd64.deb
-# sudo dpkg --force-bad-version -i crystal/crystal_amd64.deb
-# apt-get install -f -y
