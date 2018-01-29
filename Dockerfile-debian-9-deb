@@ -1,0 +1,16 @@
+FROM debian:9 AS debian
+
+RUN apt-get update \
+ && apt-get install -y git build-essential pkg-config \
+    libpcre3-dev libevent-dev \
+    libxml2-dev libyaml-dev libssl-dev zlib1g-dev libsqlite3-dev
+
+ARG crystal_deb
+ADD ${crystal_deb} /tmp/crystal.deb
+RUN dpkg -i /tmp/crystal.deb \
+ && apt-get install -f
+
+ENV REPOS_DIR /repos
+ADD test/setup /setup
+RUN /setup/00-install-bats.sh
+RUN /setup/01-clone-repos.sh

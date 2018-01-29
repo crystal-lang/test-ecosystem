@@ -1,0 +1,20 @@
+FROM debian:8 AS debian
+
+RUN apt-get update \
+ && apt-get install -y git build-essential pkg-config \
+    libpcre3-dev libevent-dev \
+    libxml2-dev libyaml-dev libssl-dev zlib1g-dev libsqlite3-dev
+
+ARG crystal_tar_gz
+# URL without untar
+# ADD ${crystal_tar_gz} /tmp/crystal.tar.gz
+# Local files without untar
+COPY ${crystal_tar_gz} /tmp/crystal.tar.gz
+ENV PATH=${PATH}:/tmp/crystal/bin
+RUN mkdir -p /tmp/crystal \
+ && tar xz -f /tmp/crystal.tar.gz -C /tmp/crystal --strip-component=1
+
+ENV REPOS_DIR /repos
+ADD test/setup /setup
+RUN /setup/00-install-bats.sh
+RUN /setup/01-clone-repos.sh
