@@ -16,3 +16,23 @@
   crystal spec
   popd
 }
+
+@test "mysql specs" {
+  pushd $REPOS_DIR/crystal-lang/crystal-mysql
+
+  shards
+  rm -rf ./lib/db && ln -s $REPOS_DIR/crystal-lang/crystal-db ./lib/db
+
+  crystal spec
+  popd
+}
+
+@test "pg specs" {
+  pushd $REPOS_DIR/will/crystal-pg
+
+  shards
+  rm -rf ./lib/db && ln -s $REPOS_DIR/crystal-lang/crystal-db ./lib/db
+
+  DATABASE_URL=postgres://postgres@/crystal crystal spec
+  popd
+}

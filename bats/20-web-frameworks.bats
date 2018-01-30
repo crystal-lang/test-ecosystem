@@ -12,24 +12,26 @@
   # rm -rf ./lib/slang && ln -s $REPOS_DIR/slang ./lib/slang
   # rm -rf ./lib/teeplate && ln -s $REPOS_DIR/teeplate ./lib/teeplate
   # rm -rf ./lib/sentry && ln -s $REPOS_DIR/sentry ./lib/sentry
-  crystal spec -D run_build_tests
+  crystal spec ./spec/build_spec.cr -D run_build_tests
+  crystal spec ./spec/amber -D run_build_tests
   popd
 }
 
 @test "kemal specs" {
   pushd $REPOS_DIR/kemalcr/kemal
   shards
+
   crystal spec
   crystal spec --release --no-debug
+
   popd
 }
 
 @test "lucky specs" {
   pushd $REPOS_DIR/luckyframework/lucky
   shards
-  # rm -rf ./lib/have_files && ln -s $REPOS_DIR/have_files ./lib/have_files
-  # rm -rf ./lib/teeplate && ln -s $REPOS_DIR/teeplate ./lib/teeplate
-  # rm -rf ./lib/lucky_cli && ln -s $REPOS_DIR/lucky_cli ./lib/lucky_cli
+
   crystal spec
+
   popd
 }
