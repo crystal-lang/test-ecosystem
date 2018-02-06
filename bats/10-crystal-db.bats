@@ -23,7 +23,7 @@
   shards
   rm -rf ./lib/db && ln -s $REPOS_DIR/crystal-lang/crystal-db ./lib/db
 
-  crystal spec
+  DATABASE_HOST="$MYSQL_HOST" crystal spec
   popd
 }
 
@@ -33,6 +33,6 @@
   shards
   rm -rf ./lib/db && ln -s $REPOS_DIR/crystal-lang/crystal-db ./lib/db
 
-  DATABASE_URL=postgres://postgres@/crystal crystal spec
+  DATABASE_URL="postgres://postgres@$POSTGRES_HOST/crystal" crystal spec
   popd
 }
