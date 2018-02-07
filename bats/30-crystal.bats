@@ -3,7 +3,8 @@
 @test "crystal compiler" {
   pushd $REPOS_DIR/crystal-lang/crystal
 
-  make crystal std_spec compiler_spec
+  make crystal
+  # make std_spec compiler_spec
 
   popd
 }

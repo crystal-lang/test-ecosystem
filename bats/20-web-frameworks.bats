@@ -19,7 +19,7 @@
   popd
 }
 
-@test "amber specs" {
+@test "amber build specs" {
   pushd $REPOS_DIR/amberframework/amber
 
   shards
@@ -28,7 +28,8 @@
   rm -rf ./lib/pg && ln -s $REPOS_DIR/will/crystal-pg ./lib/pg
   rm -rf ./lib/sqlite3 && ln -s $REPOS_DIR/crystal-lang/crystal-sqlite3 ./lib/sqlite3
 
-  CI="true" AMBER_ENV="test" REDIS_URL="redis://$REDIS_HOST:6379" crystal spec ./spec/build_spec.cr -D run_build_tests
+  CI="true" AMBER_ENV="test" REDIS_URL="redis://$REDIS_HOST:6379" crystal build ./spec/build_spec.cr -D run_build_tests
+  # CI="true" AMBER_ENV="test" REDIS_URL="redis://$REDIS_HOST:6379" crystal spec ./spec/build_spec.cr -D run_build_tests
   # CI="true" AMBER_ENV="test" REDIS_URL="redis://$REDIS_HOST:6379" crystal spec ./spec/amber -D run_build_tests
 
   popd
