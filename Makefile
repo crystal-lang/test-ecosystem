@@ -18,7 +18,7 @@ darwin:
 	mkdir -p /tmp/crystal
 	tar xz -f /tmp/crystal.tar.gz -C /tmp/crystal --strip-component=1
 	export $(cat ./docker/hosts.local.env | xargs) \
-	&& PATH=/tmp/crystal/bin:/tmp/crystal/embedded/bin:$$PATH ./clone-and-run.sh
+	&& PATH=/tmp/crystal/bin:/tmp/crystal/embedded/bin:$$PATH ./clone-and-run-local.sh
 
 .PHONY: services
 services:
@@ -34,16 +34,16 @@ services:
 
 .PHONY: docker_debian8_deb
 docker_debian8_deb: services
-	docker build -t $(DOCKER_IMAGE_NAME):debian8-deb -f ./docker/Dockerfile-debian8-deb --build-arg crystal_deb=$(CRYSTAL_LINUX_DEB) .
-	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats $(DOCKER_IMAGE_NAME):debian8-deb /bin/bash -c "bats /bats"
+	docker build -t $(DOCKER_IMAGE_NAME):debian8-deb -f ./docker/Dockerfile-debian-deb --build-arg crystal_deb=$(CRYSTAL_LINUX_DEB) --build-arg debian_docker_image="debian:8" .
+	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats $(DOCKER_IMAGE_NAME):debian8-deb /bin/bash -c "/scripts/20-run-bats.sh"
 
 .PHONY: docker_debian8_targz
 docker_debian8_targz: services
 	curl -L -o ./tmp/crystal.tar.gz $(CRYSTAL_LINUX_TARGZ)
-	docker build -t $(DOCKER_IMAGE_NAME):debian8-targz -f ./docker/Dockerfile-debian8-targz --build-arg crystal_targz=./tmp/crystal.tar.gz .
-	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats $(DOCKER_IMAGE_NAME):debian8-targz /bin/bash -c "bats /bats"
+	docker build -t $(DOCKER_IMAGE_NAME):debian8-targz -f ./docker/Dockerfile-debian-targz --build-arg crystal_targz=./tmp/crystal.tar.gz --build-arg debian_docker_image="debian:8" .
+	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats $(DOCKER_IMAGE_NAME):debian8-targz /bin/bash -c "/scripts/20-run-bats.sh"
 
 .PHONY: docker_debian9_deb
 docker_debian9_deb: services
-	docker build -t $(DOCKER_IMAGE_NAME):debian9-deb -f ./docker/Dockerfile-debian9-deb --build-arg crystal_deb=$(CRYSTAL_LINUX_DEB) .
-	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats $(DOCKER_IMAGE_NAME):debian9-deb /bin/bash -c "bats /bats"
+	docker build -t $(DOCKER_IMAGE_NAME):debian9-deb -f ./docker/Dockerfile-debian-deb --build-arg crystal_deb=$(CRYSTAL_LINUX_DEB) --build-arg debian_docker_image="debian:9" .
+	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats $(DOCKER_IMAGE_NAME):debian9-deb /bin/bash -c "/scripts/20-run-bats.sh"
