@@ -3,8 +3,6 @@
 @test "crystal version" {
   run crystal --version
   [ "$status" -eq 0 ]
-  # [[ "$output" =~ 0\.23\.1 ]]
-  # [[ "$output" =~ 0\.24\.1 ]]
 }
 
 @test "crystal eval" {

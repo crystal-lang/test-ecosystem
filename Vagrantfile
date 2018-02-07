@@ -3,7 +3,7 @@ Vagrant.configure("2") do |config|
     config.vm.define(name) do |c|
       c.vm.box = box
 
-      c.vm.synced_folder ".", "/vagrant", type: "nfs"
+      c.vm.synced_folder ".", "/vagrant"
 
       c.vm.provision :shell, inline: %(
         set -e
@@ -21,20 +21,20 @@ Vagrant.configure("2") do |config|
         /etc/init.d/docker start
 
         # crystal deps
-        apt-get -y install libssl-dev libxml2-dev libsqlite3-dev libyaml-dev libgmp-dev git
-        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
-        add-apt-repository 'deb http://apt.llvm.org/jessie/ llvm-toolchain-jessie-4.0 main'
-        apt-get update
-        apt-get -y install llvm-4.0 libreadline-dev
+        apt-get update \
+         && apt-get install -y git build-essential pkg-config software-properties-common curl \
+            libpcre3-dev libevent-dev \
+            libxml2-dev libyaml-dev libssl-dev zlib1g-dev libsqlite3-dev libgmp-dev \
+            libedit-dev libreadline-dev gdb
+
+        add-apt-repository "deb http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb_release -cs)-4.0 main" \
+         && curl -sSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
+         && apt-get update \
+         && apt-get install -y llvm-4.0
 
         # bats & services
         cd /vagrant
-        /vagrant/setup/00-install-bats.sh
-
-        # crystal compiler
-        make crystal/crystal_amd64.deb
-        dpkg --force-bad-version -i crystal/crystal_amd64.deb || echo 'deps missing'
-        apt-get install -f -y
+        /vagrant/scripts/00-install-bats.sh
       )
     end
   end
