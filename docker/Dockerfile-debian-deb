@@ -13,7 +13,7 @@ RUN add-apt-repository "deb http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolcha
  && apt-get install -y llvm-4.0
 
 ARG crystal_deb
-ADD ${crystal_deb} /tmp/crystal.deb
+COPY ${crystal_deb} /tmp/crystal.deb
 RUN dpkg --force-bad-version -i /tmp/crystal.deb \
  && apt-get install -f
 # Only needed to build crystal without installing a separate libgc
