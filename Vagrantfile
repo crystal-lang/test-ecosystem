@@ -10,16 +10,6 @@ Vagrant.configure("2") do |config|
         export DEBIAN_FRONTEND=noninteractive
         apt-get update
 
-        # docker
-        apt-get -y install apt-transport-https ca-certificates curl gnupg2 python-pip software-properties-common
-        curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg | apt-key add -
-        add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs) stable"
-        apt-get update
-        apt-get -y install docker-ce
-        pip install docker-compose
-        usermod -aG docker vagrant
-        /etc/init.d/docker start
-
         # crystal deps
         apt-get update \
          && apt-get install -y git build-essential pkg-config software-properties-common curl \

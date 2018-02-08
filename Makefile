@@ -48,13 +48,14 @@ docker_build: services_on_network
 	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats $(DOCKER_IMAGE_NAME):docker-build /bin/bash -c "/scripts/20-run-bats.sh"
 
 .PHONY: vagrant_debian8_deb
-vagrant_debian8_deb:
+vagrant_debian8_deb: services_on_host
 	vagrant up debian
-	vagrant ssh debian -c 'cd /vagrant && make local_linux_deb'
+	vagrant ssh debian -c 'cd /vagrant && make local_linux_deb SERVICES=stub' -- -R 5432:localhost:5432 -R 3306:localhost:3306 -R 6379:localhost:6379
 	vagrant destroy debian -f
 
 .PHONY: services_on_host
 services_on_host:
+ifneq ($(SERVICES),stub)
 	# services are mounted with port mapping instead of
 	# been accessed as separate host in a docker network
 	docker-compose down -v
@@ -62,6 +63,7 @@ services_on_host:
 	sleep 5
 	docker-compose exec postgres createdb crystal
 	docker-compose exec postgres createdb test_app_development
+endif
 
 .PHONY: services_on_network
 services_on_network:
