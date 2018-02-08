@@ -1,0 +1,10 @@
+ARG docker_image
+FROM ${docker_image}
+
+RUN apt-get update \
+ && apt-get install -y libsqlite3-dev
+
+ENV REPOS_DIR /repos
+ADD ./scripts /scripts
+RUN /bin/bash -c '/scripts/00-install-bats.sh'
+RUN /bin/bash -c '/scripts/10-clone-repos.sh'

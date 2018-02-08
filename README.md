@@ -10,6 +10,8 @@ Define the artifacts of the version to stress in `crystal-versions.env` run the 
 
 * `docker_debian8_targz` will check the `.tar.gz` in the according debian docker image.
 
+* `docker_build` will check the docker `-build` image.
+
 * `vagrant_debian8_deb` will check the `.deb` in the according debian docker image.
 
 * `local_darwin` will check the osx `tar.gz` in the local osx machine
