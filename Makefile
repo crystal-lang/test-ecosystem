@@ -3,6 +3,7 @@ include crystal-versions.env
 CRYSTAL_DARWING_TARGZ      ?= ## url to crystal-{version}-{package}-darwin-x86_64.tar.gz
 CRYSTAL_LINUX_DEB          ?= ## url to crystal_{version}-{package}_amd64.deb
 CRYSTAL_LINUX_TARGZ        ?= ## url to crystal-{version}-{package}-linux-x86_64.tar.gz
+CRYSTAL_LINUX32_DEB        ?= ## url to crystal_{version}-{package}_i386.deb
 CRYSTAL_DOCKER_BUILD_IMAGE ?= ## full docker image name to use crystallang/crystal:{version}-build
 
 DOCKER_IMAGE_NAME = crystal-test
@@ -25,6 +26,14 @@ local_linux_deb: services_on_host
 	sudo apt-get install -f -y
 	source ./docker/hosts.local.env \
 	&& LIBRARY_PATH=/usr/lib/crystal/lib/ ./clone-and-run-local.sh
+
+.PHONY: local_linux32_deb
+local_linux32_deb: services_on_host
+	curl -L -o ./tmp/crystal.deb $(CRYSTAL_LINUX32_DEB)
+	sudo dpkg --force-bad-version -i ./tmp/crystal.deb || echo 'deps missing'
+	sudo apt-get install -f -y
+	source ./docker/hosts.local.env \
+	&& LIBRARY_PATH=/opt/crystal/embedded/lib/ ./clone-and-run-local.sh
 
 .PHONY: docker_debian8_deb
 docker_debian8_deb: services_on_network
@@ -52,6 +61,12 @@ vagrant_debian8_deb: services_on_host
 	vagrant up debian
 	vagrant ssh debian -c 'cd /vagrant && make local_linux_deb SERVICES=stub' -- -R 5432:localhost:5432 -R 3306:localhost:3306 -R 6379:localhost:6379
 	vagrant destroy debian -f
+
+.PHONY: vagrant_xenial32_deb
+vagrant_xenial32_deb: services_on_host
+	vagrant up xenial32
+	vagrant ssh xenial32 -c 'cd /vagrant && make local_linux32_deb SERVICES=stub' -- -R 5432:localhost:5432 -R 3306:localhost:3306 -R 6379:localhost:6379
+	vagrant destroy xenial32 -f
 
 .PHONY: services_on_host
 services_on_host:
