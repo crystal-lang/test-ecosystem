@@ -43,6 +43,11 @@ docker_debian8_deb: $(BINARIES)/linux.deb services_on_network
 	docker build -t $(DOCKER_IMAGE_NAME):debian8-deb -f ./docker/Dockerfile-debian-deb --build-arg crystal_deb=$(BINARIES)/linux.deb --build-arg debian_docker_image="debian:8" .
 	$(call run_bats_in_docker,debian8-deb)
 
+.PHONY: docker_debian8_i386_deb
+docker_debian8_i386_deb: $(BINARIES)/linux32.deb services_on_network
+	docker build -t $(DOCKER_IMAGE_NAME):debian8-i386-deb -f ./docker/Dockerfile-debian-deb --build-arg crystal_deb=$(BINARIES)/linux32.deb --build-arg debian_docker_image="i386/debian:8" --build-arg library_path=/opt/crystal/embedded/lib/ .
+	$(call run_bats_in_docker,debian8-i386-deb)
+
 .PHONY: docker_debian8_targz
 docker_debian8_targz: $(BINARIES)/linux.tar.gz services_on_network
 	docker build -t $(DOCKER_IMAGE_NAME):debian8-targz -f ./docker/Dockerfile-debian-targz --build-arg crystal_targz=$(BINARIES)/linux.tar.gz --build-arg debian_docker_image="debian:8" .

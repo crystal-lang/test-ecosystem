@@ -17,7 +17,8 @@ COPY ${crystal_deb} /tmp/crystal.deb
 RUN dpkg --force-bad-version -i /tmp/crystal.deb \
  && apt-get install -f
 # Only needed to build crystal without installing a separate libgc
-ENV LIBRARY_PATH=/usr/lib/crystal/lib/
+ARG library_path=/usr/lib/crystal/lib/
+ENV LIBRARY_PATH=${library_path}
 
 ENV REPOS_DIR /repos
 ADD ./scripts /scripts
