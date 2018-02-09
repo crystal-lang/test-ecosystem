@@ -8,7 +8,7 @@ Define the artifacts of the version to stress in `crystal-versions.env` run the 
 
 * `docker_debian8_deb` and `docker_debian9_deb` will check the `.deb` in the according debian docker image.
 
-* `docker_debian8_i386_deb` will check the 32-bits `.deb` in the according debian docker image.
+* `docker_debian8_i386_deb` and `docker_xenial_i386_deb` will check the 32-bits `.deb` in the according debian/ubuntu docker image. (debian8 seems to have issues linking the crystal compiler [ref](https://github.com/crystal-lang/crystal/issues/1269))
 
 * `docker_debian8_targz` will check the `.tar.gz` in the according debian docker image.
 

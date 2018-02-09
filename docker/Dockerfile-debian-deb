@@ -2,7 +2,7 @@ ARG debian_docker_image
 FROM ${debian_docker_image}
 
 RUN apt-get update \
- && apt-get install -y git build-essential pkg-config software-properties-common curl \
+ && apt-get install -y git build-essential tzdata pkg-config software-properties-common curl \
     libpcre3-dev libevent-dev \
     libxml2-dev libyaml-dev libssl-dev zlib1g-dev libsqlite3-dev libgmp-dev \
     libedit-dev libreadline-dev gdb

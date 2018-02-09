@@ -35,7 +35,7 @@ local_linux32_deb: $(BINARIES)/linux32.deb services_on_host
 	&& LIBRARY_PATH=/opt/crystal/embedded/lib/ ./clone-and-run-local.sh
 
 define run_bats_in_docker
-	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats $(DOCKER_IMAGE_NAME):$(1) /bin/bash -c "/scripts/20-run-bats.sh"
+	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats $(DOCKER_IMAGE_NAME):$(1) $2 /bin/bash -c "/scripts/20-run-bats.sh"
 endef
 
 .PHONY: docker_debian8_deb
@@ -46,7 +46,12 @@ docker_debian8_deb: $(BINARIES)/linux.deb services_on_network
 .PHONY: docker_debian8_i386_deb
 docker_debian8_i386_deb: $(BINARIES)/linux32.deb services_on_network
 	docker build -t $(DOCKER_IMAGE_NAME):debian8-i386-deb -f ./docker/Dockerfile-debian-deb --build-arg crystal_deb=$(BINARIES)/linux32.deb --build-arg debian_docker_image="i386/debian:8" --build-arg library_path=/opt/crystal/embedded/lib/ .
-	$(call run_bats_in_docker,debian8-i386-deb)
+	$(call run_bats_in_docker,debian8-i386-deb,linux32)
+
+.PHONY: docker_xenial_i386_deb
+docker_xenial_i386_deb: $(BINARIES)/linux32.deb services_on_network
+	docker build -t $(DOCKER_IMAGE_NAME):xenial-i386-deb -f ./docker/Dockerfile-debian-deb --build-arg crystal_deb=$(BINARIES)/linux32.deb --build-arg debian_docker_image="i386/ubuntu:xenial" --build-arg library_path=/opt/crystal/embedded/lib/ .
+	$(call run_bats_in_docker,xenial-i386-deb,linux32)
 
 .PHONY: docker_debian8_targz
 docker_debian8_targz: $(BINARIES)/linux.tar.gz services_on_network
