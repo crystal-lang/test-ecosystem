@@ -23,5 +23,5 @@
 @test "crystal spec with backtrace" {
   run crystal eval 'Colorize.enabled = false; require "spec"; it "foo" { expect_raises(ArgumentError){ raise "" } }'
   [ "$status" -eq 1 ]
-  [[ "${lines[-1]}" =~ "crystal spec eval:1 # foo" ]]
+  [[ "${lines[*]: -1}" =~ "crystal spec eval:1 # foo" ]]
 }
