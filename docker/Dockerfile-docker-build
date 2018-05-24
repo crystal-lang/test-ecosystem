@@ -7,4 +7,6 @@ RUN apt-get update \
 ENV REPOS_DIR /repos
 ADD ./scripts /scripts
 RUN /bin/bash -c '/scripts/00-install-bats.sh'
+
+ARG cache_date
 RUN /bin/bash -c '/scripts/10-clone-repos.sh'

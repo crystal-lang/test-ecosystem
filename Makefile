@@ -40,32 +40,32 @@ endef
 
 .PHONY: docker_debian8_deb
 docker_debian8_deb: $(BINARIES)/linux.deb services_on_network
-	docker build -t $(DOCKER_IMAGE_NAME):debian8-deb -f ./docker/Dockerfile-debian-deb --build-arg crystal_deb=$(BINARIES)/linux.deb --build-arg debian_docker_image="debian:8" .
+	docker build -t $(DOCKER_IMAGE_NAME):debian8-deb -f ./docker/Dockerfile-debian-deb --build-arg cache_date=$(shell date +%s) --build-arg crystal_deb=$(BINARIES)/linux.deb --build-arg debian_docker_image="debian:8" .
 	$(call run_bats_in_docker,debian8-deb)
 
 .PHONY: docker_debian8_i386_deb
 docker_debian8_i386_deb: $(BINARIES)/linux32.deb services_on_network
-	docker build -t $(DOCKER_IMAGE_NAME):debian8-i386-deb -f ./docker/Dockerfile-debian-deb --build-arg crystal_deb=$(BINARIES)/linux32.deb --build-arg debian_docker_image="i386/debian:8" --build-arg library_path=/opt/crystal/embedded/lib/ .
+	docker build -t $(DOCKER_IMAGE_NAME):debian8-i386-deb -f ./docker/Dockerfile-debian-deb --build-arg cache_date=$(shell date +%s) --build-arg crystal_deb=$(BINARIES)/linux32.deb --build-arg debian_docker_image="i386/debian:8" --build-arg library_path=/usr/lib/crystal/lib/ .
 	$(call run_bats_in_docker,debian8-i386-deb,linux32)
 
 .PHONY: docker_xenial_i386_deb
 docker_xenial_i386_deb: $(BINARIES)/linux32.deb services_on_network
-	docker build -t $(DOCKER_IMAGE_NAME):xenial-i386-deb -f ./docker/Dockerfile-debian-deb --build-arg crystal_deb=$(BINARIES)/linux32.deb --build-arg debian_docker_image="i386/ubuntu:xenial" --build-arg library_path=/opt/crystal/embedded/lib/ .
+	docker build -t $(DOCKER_IMAGE_NAME):xenial-i386-deb -f ./docker/Dockerfile-debian-deb --build-arg cache_date=$(shell date +%s) --build-arg crystal_deb=$(BINARIES)/linux32.deb --build-arg debian_docker_image="i386/ubuntu:xenial" --build-arg library_path=/usr/lib/crystal/lib/ .
 	$(call run_bats_in_docker,xenial-i386-deb,linux32)
 
 .PHONY: docker_debian8_targz
 docker_debian8_targz: $(BINARIES)/linux.tar.gz services_on_network
-	docker build -t $(DOCKER_IMAGE_NAME):debian8-targz -f ./docker/Dockerfile-debian-targz --build-arg crystal_targz=$(BINARIES)/linux.tar.gz --build-arg debian_docker_image="debian:8" .
+	docker build -t $(DOCKER_IMAGE_NAME):debian8-targz -f ./docker/Dockerfile-debian-targz --build-arg cache_date=$(shell date +%s) --build-arg crystal_targz=$(BINARIES)/linux.tar.gz --build-arg debian_docker_image="debian:8" .
 	$(call run_bats_in_docker,debian8-targz)
 
 .PHONY: docker_debian9_deb
 docker_debian9_deb: $(BINARIES)/linux.deb services_on_network
-	docker build -t $(DOCKER_IMAGE_NAME):debian9-deb -f ./docker/Dockerfile-debian-deb --build-arg crystal_deb=$(BINARIES)/linux.deb --build-arg debian_docker_image="debian:9" .
+	docker build -t $(DOCKER_IMAGE_NAME):debian9-deb -f ./docker/Dockerfile-debian-deb --build-arg cache_date=$(shell date +%s) --build-arg crystal_deb=$(BINARIES)/linux.deb --build-arg debian_docker_image="debian:9" .
 	$(call run_bats_in_docker,debian9-deb)
 
 .PHONY: docker_build
 docker_build: services_on_network
-	docker build -t $(DOCKER_IMAGE_NAME):docker-build -f ./docker/Dockerfile-docker-build --build-arg docker_image=$(CRYSTAL_DOCKER_BUILD_IMAGE) .
+	docker build -t $(DOCKER_IMAGE_NAME):docker-build -f ./docker/Dockerfile-docker-build --build-arg cache_date=$(shell date +%s) --build-arg docker_image=$(CRYSTAL_DOCKER_BUILD_IMAGE) .
 	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats $(DOCKER_IMAGE_NAME):docker-build /bin/bash -c "/scripts/20-run-bats.sh"
 
 .PHONY: vagrant_debian8_deb
