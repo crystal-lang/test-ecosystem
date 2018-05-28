@@ -16,7 +16,7 @@ Define the artifacts of the version to stress in `crystal-versions.env` run the 
 
 * `vagrant_debian8_deb` will check the `.deb` in the according debian vagrant machine.
 
-* `vagrant_xenial32_deb` will check the `.deb` in the according ubuntu vagrant machine.
+* `vagrant_xenial32_deb` will check the `.deb` in the according 32-bits ubuntu vagrant machine.
 
 * `vagrant_fedora25_rpm` will check the `.rpm` in the according fedora vagrant maching.
 

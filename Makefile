@@ -34,7 +34,7 @@ local_linux32_deb: $(BINARIES)/linux32.deb services_on_host
 	sudo dpkg --force-bad-version -i $(BINARIES)/linux32.deb || echo 'deps missing'
 	sudo apt-get install -f -y
 	source ./docker/hosts.local.env \
-	&& LIBRARY_PATH=/opt/crystal/embedded/lib/ ./clone-and-run-local.sh
+	&& LIBRARY_PATH=/usr/lib/crystal/lib/ ./clone-and-run-local.sh
 
 .PHONY: local_fedora_rpm
 local_fedora_rpm: $(BINARIES)/linux.rpm services_on_host
