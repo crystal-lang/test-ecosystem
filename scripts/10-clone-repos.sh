@@ -4,10 +4,14 @@ set -e
 rm -rf $REPOS_DIR
 mkdir -p $REPOS_DIR
 
+# gh_clone org/repo : will checkout master at $REPOS_DIR/org/repo
+# gh_clone org/repo branch : will checkout branch at $REPOS_DIR/org/repo
+# gh_clone org/repo branch fork: will checkout branch of github:fork at $REPOS_DIR/org/repo
 function gh_clone {
-  mkdir -p $REPOS_DIR/$1
-  git clone https://github.com/$1.git $REPOS_DIR/$1
-  pushd $REPOS_DIR/$1
+  local repo_wk=${REPOS_DIR}/$1
+  mkdir -p $repo_wk
+  git clone https://github.com/${3:-$1}.git $repo_wk
+  pushd $repo_wk
   git checkout ${2:-master}
   popd
 }
