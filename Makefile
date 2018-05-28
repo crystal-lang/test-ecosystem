@@ -36,6 +36,12 @@ local_linux32_deb: $(BINARIES)/linux32.deb services_on_host
 	source ./docker/hosts.local.env \
 	&& LIBRARY_PATH=/opt/crystal/embedded/lib/ ./clone-and-run-local.sh
 
+.PHONY: local_fedora_rpm
+local_fedora_rpm: $(BINARIES)/linux.rpm services_on_host
+	sudo dnf -y install $(BINARIES)/linux.rpm
+	source ./docker/hosts.local.env \
+	&& LIBRARY_PATH=/usr/lib/crystal/lib/ ./clone-and-run-local.sh
+
 define run_bats_in_docker
 	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats $(DOCKER_IMAGE_NAME):$(1) $2 /bin/bash -c "/scripts/20-run-bats.sh"
 endef
@@ -81,6 +87,12 @@ vagrant_xenial32_deb: services_on_host
 	vagrant up xenial32
 	vagrant ssh xenial32 -c 'cd /vagrant && make local_linux32_deb SERVICES=stub' -- -R 5432:localhost:5432 -R 3306:localhost:3306 -R 6379:localhost:6379
 	vagrant destroy xenial32 -f
+
+.PHONY: vagrant_fedora25_rpm
+vagrant_fedora25_rpm: $(BINARIES)/linux.rpm services_on_host
+	vagrant up fedora25
+	vagrant ssh fedora25 -c 'cd /vagrant && make local_fedora_rpm SERVICES=stub' -- -R 5432:localhost:5432 -R 3306:localhost:3306 -R 6379:localhost:6379
+	vagrant destroy fedora25 -f
 
 define prepare_services
 	sleep 5

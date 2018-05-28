@@ -18,6 +18,8 @@ Define the artifacts of the version to stress in `crystal-versions.env` run the 
 
 * `vagrant_xenial32_deb` will check the `.deb` in the according ubuntu vagrant machine.
 
+* `vagrant_fedora25_rpm` will check the `.rpm` in the according fedora vagrant maching.
+
 * `local_darwin` will check the osx `tar.gz` in the local osx machine
 
 * `local_linux_deb` will check the `.deb` in the local linux machine

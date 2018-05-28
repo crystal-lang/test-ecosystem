@@ -22,7 +22,29 @@ Vagrant.configure("2") do |config|
          && apt-get update \
          && apt-get install -y llvm-4.0
 
-        # bats & services
+        # bats
+        cd /vagrant
+        /vagrant/scripts/00-install-bats.sh
+      )
+    end
+  end
+
+  [%w(fedora25 bento/fedora-25)].each do |name, box|
+    config.vm.define(name) do |c|
+      c.vm.box = box
+
+      c.vm.synced_folder ".", "/vagrant"
+
+      c.vm.provision :shell, inline: %(
+        set -e
+
+        dnf -y groupinstall "C Development Tools and Libraries"
+        dnf -y install git
+        dnf -y install gmp-devel libbsd-devel libedit-devel libevent-devel libxml2-devel \
+                       libyaml-devel llvm-devel openssl-devel readline-devel redhat-rpm-config
+        dnf -y install sqlite-devel
+
+        # bats
         cd /vagrant
         /vagrant/scripts/00-install-bats.sh
       )
