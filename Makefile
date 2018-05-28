@@ -1,9 +1,11 @@
 include crystal-versions.env
 
 CRYSTAL_DARWIN_TARGZ       ?= ## url or path to crystal-{version}-{package}-darwin-x86_64.tar.gz
-CRYSTAL_LINUX_DEB          ?= ## url or path to crystal_{version}-{package}_amd64.deb
 CRYSTAL_LINUX_TARGZ        ?= ## url or path to crystal-{version}-{package}-linux-x86_64.tar.gz
+CRYSTAL_LINUX_DEB          ?= ## url or path to crystal_{version}-{package}_amd64.deb
 CRYSTAL_LINUX32_DEB        ?= ## url or path to crystal_{version}-{package}_i386.deb
+CRYSTAL_LINUX_RPM          ?= ## url or path to crystal-{version}-{package}.x86_64.rpm
+CRYSTAL_LINUX32_RPM        ?= ## url or path to crystal-{version}-{package}.i386.rpm
 CRYSTAL_DOCKER_BUILD_IMAGE ?= ## full docker image name to use crystallang/crystal:{version}-build
 
 DOCKER_IMAGE_NAME = crystal-test
@@ -117,19 +119,25 @@ define prepare_binary
 endef
 
 .PHONY: binaries
-binaries: $(BINARIES)/darwin.tar.gz $(BINARIES)/linux.deb $(BINARIES)/linux.tar.gz
+binaries: $(BINARIES)/darwin.tar.gz $(BINARIES)/linux.deb $(BINARIES)/linux.tar.gz $(BINARIES)/linux32.deb $(BINARIES)/linux.rpm $(BINARIES)/linux32.rpm
 
 clean:
 	rm -Rf $(BINARIES)/*
 
-$(BINARIES)/darwin.tar.gz:
+$(BINARIES)/darwin.tar.gz: crystal-versions.env
 	$(call prepare_binary,$(CRYSTAL_DARWIN_TARGZ),darwin.tar.gz)
 
-$(BINARIES)/linux.deb:
+$(BINARIES)/linux.deb: crystal-versions.env
 	$(call prepare_binary,$(CRYSTAL_LINUX_DEB),linux.deb)
 
-$(BINARIES)/linux.tar.gz:
+$(BINARIES)/linux.tar.gz: crystal-versions.env
 	$(call prepare_binary,$(CRYSTAL_LINUX_TARGZ),linux.tar.gz)
 
-$(BINARIES)/linux32.deb:
+$(BINARIES)/linux32.deb: crystal-versions.env
 	$(call prepare_binary,$(CRYSTAL_LINUX32_DEB),linux32.deb)
+
+$(BINARIES)/linux.rpm: crystal-versions.env
+	$(call prepare_binary,$(CRYSTAL_LINUX_RPM),linux.rpm)
+
+$(BINARIES)/linux32.rpm: crystal-versions.env
+	$(call prepare_binary,$(CRYSTAL_LINUX32_RPM),linux32.rpm)
