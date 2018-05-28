@@ -13,6 +13,8 @@
 @test "lucky specs" {
   pushd $REPOS_DIR/luckyframework/lucky
   shards
+  rm -rf ./lib/db && ln -s $REPOS_DIR/crystal-lang/crystal-db ./lib/db
+  rm -rf ./lib/pg && ln -s $REPOS_DIR/will/crystal-pg ./lib/pg
 
   crystal spec
 
