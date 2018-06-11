@@ -14,7 +14,7 @@ RUN add-apt-repository "deb http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolcha
 
 ARG crystal_targz
 COPY ${crystal_targz} /tmp/crystal.tar.gz
-ENV PATH=/tmp/crystal/bin:/tmp/crystal/embedded/bin:${PATH}
+ENV PATH=/tmp/crystal/bin:${PATH}
 RUN mkdir -p /tmp/crystal \
  && tar xz -f /tmp/crystal.tar.gz -C /tmp/crystal --strip-component=1
 # Only needed to build crystal without installing a separate libgc
