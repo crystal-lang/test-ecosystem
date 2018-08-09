@@ -25,4 +25,5 @@ gh_clone will/crystal-pg
 
 gh_clone kemalcr/kemal
 gh_clone luckyframework/lucky
+gh_clone luckyframework/lucky_cli
 gh_clone amberframework/amber
