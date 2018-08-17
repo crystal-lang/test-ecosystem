@@ -2,7 +2,7 @@ ARG docker_image
 FROM ${docker_image}
 
 RUN apt-get update \
- && apt-get install -y libsqlite3-dev
+ && apt-get install -y libsqlite3-dev postgresql-client
 
 ENV REPOS_DIR /repos
 ADD ./scripts /scripts

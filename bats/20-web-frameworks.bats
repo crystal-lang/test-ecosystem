@@ -53,6 +53,27 @@
   popd
 }
 
+@test "lucky record specs" {
+  pushd $REPOS_DIR/luckyframework/lucky_record
+  shards
+
+  ln -s $REPOS_DIR/luckyframework/lucky_cli/lucky ./lucky
+  export DATABASE_URL="postgres://root@$POSTGRES_HOST:5432/lucky_record_test"
+
+  crystal tasks.cr -- db.create
+  crystal tasks.cr -- db.migrate
+  crystal tasks.cr -- db.rollback_all
+  crystal tasks.cr -- db.migrate.one
+  crystal tasks.cr -- db.migrate
+  crystal tasks.cr -- gen.migration TestMigration
+  crystal spec
+  shards build
+
+  unset DATABASE_URL
+
+  popd
+}
+
 @test "lucky init" {
   pushd $REPOS_DIR/luckyframework
 

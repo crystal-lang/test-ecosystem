@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
          && apt-get install -y git build-essential pkg-config software-properties-common curl \
             libpcre3-dev libevent-dev \
             libxml2-dev libyaml-dev libssl-dev zlib1g-dev libsqlite3-dev libgmp-dev \
-            libedit-dev libreadline-dev gdb
+            libedit-dev libreadline-dev gdb postgresql-client
 
         add-apt-repository "deb http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb_release -cs)-4.0 main" \
          && curl -sSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
@@ -42,7 +42,7 @@ Vagrant.configure("2") do |config|
         dnf -y install git
         dnf -y install gmp-devel libbsd-devel libedit-devel libevent-devel libxml2-devel \
                        libyaml-devel llvm-devel openssl-devel readline-devel redhat-rpm-config
-        dnf -y install sqlite-devel
+        dnf -y install sqlite-devel postgresql
 
         # bats
         cd /vagrant
