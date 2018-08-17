@@ -23,6 +23,8 @@ gh_clone crystal-lang/crystal-mysql
 gh_clone crystal-lang/crystal-sqlite3
 gh_clone will/crystal-pg
 
+gh_clone manastech/webmock.cr
+
 gh_clone kemalcr/kemal
 gh_clone luckyframework/lucky
 gh_clone luckyframework/lucky_cli
