@@ -79,7 +79,7 @@ docker_debian9_deb: $(BINARIES)/linux.deb services_on_network
 .PHONY: docker_build
 docker_build: services_on_network
 	docker build --pull -t $(DOCKER_IMAGE_NAME):docker-build -f ./docker/Dockerfile-docker-build --build-arg cache_date=$(shell date +%s) --build-arg docker_image=$(CRYSTAL_DOCKER_BUILD_IMAGE) .
-	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats $(DOCKER_IMAGE_NAME):docker-build /bin/bash -c "/scripts/20-run-bats.sh"
+	$(call run_bats_in_docker,docker-build)
 
 .PHONY: vagrant_debian8_deb
 vagrant_debian8_deb: services_on_host
