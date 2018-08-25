@@ -89,7 +89,7 @@
   popd
 }
 
-@test "amber build specs and build cli" {
+@test "amber specs (build)" {
   pushd $REPOS_DIR/amberframework/amber
 
   shards
@@ -101,10 +101,23 @@
   shards build
   ./bin/amber -v
 
-  CI="true" AMBER_ENV="test" REDIS_URL="redis://$REDIS_HOST:6379" crystal build ./spec/build_spec_granite.cr -D run_build_tests
-  CI="true" AMBER_ENV="test" REDIS_URL="redis://$REDIS_HOST:6379" crystal build ./spec/build_spec_crecto.cr -D run_build_tests
-  # CI="true" AMBER_ENV="test" REDIS_URL="redis://$REDIS_HOST:6379" crystal spec ./spec/build_spec.cr -D run_build_tests
-  # CI="true" AMBER_ENV="test" REDIS_URL="redis://$REDIS_HOST:6379" crystal spec ./spec/amber -D run_build_tests
+  export CI="true"
+  export AMBER_ENV="test"
+  export REDIS_URL="redis://$REDIS_HOST:6379"
+  export DATABASE_URL="postgres://root@$POSTGRES_HOST:5432/amber_test"
+
+  # unable to run specs because spec/build_spec_[granite|crecto].cr:23/49
+  # expect localhost database instead of DATABASE_URL
+  crystal build ./spec/build_spec_granite.cr
+  crystal build ./spec/build_spec_crecto.cr
+
+  # Environment file not found for ./config/environments/production
+  crystal build ./spec/amber/**.cr
+
+  unset CI
+  unset AMBER_ENV
+  unset REDIS_URL
+  unset DATABASE_URL
 
   popd
 }
