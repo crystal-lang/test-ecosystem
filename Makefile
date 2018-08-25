@@ -119,7 +119,7 @@ endif
 services_on_network:
 	# for performing the specs in crystal compilers in
 	# a docker container, the services are used as different
-  # hosts in a docker network
+	# hosts in a docker network
 	docker-compose down -v
 	docker network inspect $(DOCKER_NETWORK) || docker network create $(DOCKER_NETWORK)
 	docker-compose -f docker-compose.yml -f docker-compose.network.yml up -d
