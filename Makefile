@@ -46,6 +46,11 @@ define run_bats_in_docker
 	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats $(DOCKER_IMAGE_NAME):$(1) $2 /bin/bash -c "/scripts/20-run-bats.sh"
 endef
 
+# replace calls to run_bats_in_docker with run_shell_in_docker to get an interactive shell
+define run_shell_in_docker
+	docker run --rm -it --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats $(DOCKER_IMAGE_NAME):$(1) $2 /bin/bash
+endef
+
 .PHONY: docker_debian8_deb
 docker_debian8_deb: $(BINARIES)/linux.deb services_on_network
 	docker build -t $(DOCKER_IMAGE_NAME):debian8-deb -f ./docker/Dockerfile-debian-deb --build-arg cache_date=$(shell date +%s) --build-arg crystal_deb=$(BINARIES)/linux.deb --build-arg debian_docker_image="debian:8" .
