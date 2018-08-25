@@ -8,5 +8,7 @@ ENV REPOS_DIR /repos
 ADD ./scripts /scripts
 RUN /bin/bash -c '/scripts/00-install-bats.sh'
 
+ENV SHARDS_CACHE_PATH /shards_cache
+
 ARG cache_date
 RUN /bin/bash -c '/scripts/10-clone-repos.sh'

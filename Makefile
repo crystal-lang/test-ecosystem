@@ -43,12 +43,12 @@ local_fedora_rpm: $(BINARIES)/linux.rpm services_on_host
 	&& LIBRARY_PATH=/usr/lib/crystal/lib/ ./clone-and-run-local.sh
 
 define run_bats_in_docker
-	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats $(DOCKER_IMAGE_NAME):$(1) $2 /bin/bash -c "/scripts/20-run-bats.sh"
+	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats -v $(CURDIR)/shards_cache:/shards_cache $(DOCKER_IMAGE_NAME):$(1) $2 /bin/bash -c "/scripts/20-run-bats.sh"
 endef
 
 # replace calls to run_bats_in_docker with run_shell_in_docker to get an interactive shell
 define run_shell_in_docker
-	docker run --rm -it --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats $(DOCKER_IMAGE_NAME):$(1) $2 /bin/bash
+	docker run --rm -it --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats -v $(CURDIR)/shards_cache:/shards_cache $(DOCKER_IMAGE_NAME):$(1) $2 /bin/bash
 endef
 
 .PHONY: docker_debian8_deb
@@ -140,6 +140,7 @@ binaries: $(BINARIES)/darwin.tar.gz $(BINARIES)/linux.deb $(BINARIES)/linux.tar.
 
 clean:
 	rm -Rf $(BINARIES)/*
+	rm -Rf shards_cache
 
 $(BINARIES)/darwin.tar.gz: crystal-versions.env
 	$(call prepare_binary,$(CRYSTAL_DARWIN_TARGZ),darwin.tar.gz)
