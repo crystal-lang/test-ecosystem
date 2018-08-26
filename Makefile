@@ -87,6 +87,12 @@ vagrant_debian8_deb: services_on_host
 	vagrant ssh debian -c 'cd /vagrant && make local_linux_deb SERVICES=stub' -- -R 5432:localhost:5432 -R 3306:localhost:3306 -R 6379:localhost:6379
 	vagrant destroy debian -f
 
+.PHONY: vagrant_xenial_deb
+vagrant_xenial_deb: services_on_host
+	vagrant up xenial
+	vagrant ssh xenial -c 'cd /vagrant && make local_linux_deb SERVICES=stub' -- -R 5432:localhost:5432 -R 3306:localhost:3306 -R 6379:localhost:6379
+	vagrant destroy xenial -f
+
 .PHONY: vagrant_xenial32_deb
 vagrant_xenial32_deb: services_on_host
 	vagrant up xenial32

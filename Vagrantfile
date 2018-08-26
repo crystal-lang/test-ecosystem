@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-  [%w(debian debian/jessie64), %w(xenial32 ubuntu/xenial32)].each do |name, box|
+  [%w(debian debian/jessie64), %w(xenial ubuntu/xenial64), %w(xenial32 ubuntu/xenial32)].each do |name, box|
     config.vm.define(name) do |c|
       c.vm.box = box
 
