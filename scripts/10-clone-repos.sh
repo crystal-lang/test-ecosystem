@@ -9,8 +9,18 @@ mkdir -p $REPOS_DIR
 # gh_clone org/repo branch fork: will checkout branch of github:fork at $REPOS_DIR/org/repo
 function gh_clone {
   local repo_wk=${REPOS_DIR}/$1
+  local upstream_gh_repo=${3:-$1}
+  local shards_cache_dir=${SHARDS_CACHE_PATH}/github.com/$upstream_gh_repo.git
+
+  # Reuse shards global cache.
+  # It assumes that cache is clear before the whole testing per release
+  if [ ! -d $shards_cache_dir ]; then
+    git clone --mirror --quiet https://github.com/$upstream_gh_repo.git $shards_cache_dir
+  fi
+
+  # checkout from shards cache
   mkdir -p $repo_wk
-  git clone https://github.com/${3:-$1}.git $repo_wk
+  git clone $shards_cache_dir $repo_wk
   pushd $repo_wk
   git checkout ${2:-master}
   popd
