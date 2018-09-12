@@ -10,7 +10,7 @@ RUN apt-get update \
 RUN add-apt-repository "deb http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb_release -cs)-4.0 main" \
  && curl -sSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
  && apt-get update \
- && apt-get install -y llvm-4.0
+ && apt-get install -y llvm-4.0 libclang-4.0-dev
 
 ARG crystal_deb
 COPY ${crystal_deb} /tmp/crystal.deb

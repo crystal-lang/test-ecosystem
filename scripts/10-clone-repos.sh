@@ -28,6 +28,8 @@ function gh_clone {
 
 gh_clone crystal-lang/crystal
 
+gh_clone crystal-lang/crystal_lib
+
 gh_clone crystal-lang/crystal-db
 gh_clone crystal-lang/crystal-mysql
 gh_clone crystal-lang/crystal-sqlite3

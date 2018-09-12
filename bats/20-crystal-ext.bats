@@ -7,4 +7,8 @@
   popd
 }
 
-# TODO: crystal_lib
+@test "crystal_lib specs" {
+  pushd $REPOS_DIR/crystal-lang/crystal_lib
+  crystal spec
+  popd
+}
