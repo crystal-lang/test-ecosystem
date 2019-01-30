@@ -58,7 +58,7 @@
   shards
 
   ln -s $REPOS_DIR/luckyframework/lucky_cli/lucky ./lucky
-  export DATABASE_URL="postgres://root@$POSTGRES_HOST:5432/lucky_record_test"
+  export DATABASE_URL="postgres://postgres@$POSTGRES_HOST:5432/lucky_record_test"
 
   crystal tasks.cr -- db.create
   crystal tasks.cr -- db.migrate
@@ -104,7 +104,7 @@
   export CI="true"
   export AMBER_ENV="test"
   export REDIS_URL="redis://$REDIS_HOST:6379"
-  export DATABASE_URL="postgres://root@$POSTGRES_HOST:5432/amber_test"
+  export DATABASE_URL="postgres://postgres@$POSTGRES_HOST:5432/amber_test"
 
   # unable to run specs because spec/build_spec_[granite|crecto].cr:23/49
   # expect localhost database instead of DATABASE_URL

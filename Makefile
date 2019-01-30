@@ -113,8 +113,8 @@ vagrant_fedora29_rpm: $(BINARIES)/linux.rpm services_on_host
 
 define prepare_services
 	sleep 5
-	docker-compose exec postgres createdb crystal
-	docker-compose exec postgres createdb test_app_development
+	docker-compose exec postgres createdb -U postgres crystal
+	docker-compose exec postgres createdb -U postgres test_app_development
 endef
 
 .PHONY: services_on_host
