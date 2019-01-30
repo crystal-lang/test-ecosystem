@@ -150,9 +150,12 @@ endef
 .PHONY: binaries
 binaries: $(BINARIES)/darwin.tar.gz $(BINARIES)/linux.deb $(BINARIES)/linux.tar.gz $(BINARIES)/linux32.deb $(BINARIES)/linux.rpm $(BINARIES)/linux32.rpm
 
-clean:
+clean: clean_vagrant
 	rm -Rf $(BINARIES)/*
 	rm -Rf shards_cache
+
+clean_vagrant:
+	vagrant destroy -f debian xenial xenial32 fedora25 fedora29
 
 $(BINARIES)/darwin.tar.gz: crystal-versions.env
 	$(call prepare_binary,$(CRYSTAL_DARWIN_TARGZ),darwin.tar.gz)
