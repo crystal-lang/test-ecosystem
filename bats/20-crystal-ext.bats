@@ -9,6 +9,7 @@
 
 @test "crystal_lib specs" {
   pushd $REPOS_DIR/crystal-lang/crystal_lib
+  shards
   crystal spec
   popd
 }
