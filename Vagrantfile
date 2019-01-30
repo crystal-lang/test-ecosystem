@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  [%w(fedora25 bento/fedora-25)].each do |name, box|
+  [%w(fedora25 bento/fedora-25), %w(fedora29 bento/fedora-29)].each do |name, box|
     config.vm.define(name) do |c|
       c.vm.box = box
 
@@ -41,8 +41,16 @@ Vagrant.configure("2") do |config|
         dnf -y groupinstall "C Development Tools and Libraries"
         dnf -y install git
         dnf -y install gmp-devel libbsd-devel libedit-devel libevent-devel libxml2-devel \
-                       libyaml-devel llvm-devel openssl-devel readline-devel redhat-rpm-config
-        dnf -y install sqlite-devel postgresql libclang-4.0-dev
+                       libyaml-devel openssl-devel readline-devel redhat-rpm-config
+        dnf -y install sqlite-devel postgresql
+
+        curl -sSL https://rpmfind.net/linux/fedora/linux/releases/27/Everything/x86_64/os/Packages/l/llvm-4.0.1-3.fc27.i686.rpm --output llvm.rpm
+        curl -sSL https://rpmfind.net/linux/fedora/linux/releases/27/Everything/x86_64/os/Packages/l/llvm-devel-4.0.1-3.fc27.i686.rpm --output llvm-devel.rpm
+        curl -sSL https://rpmfind.net/linux/fedora/linux/releases/27/Everything/x86_64/os/Packages/l/llvm-libs-4.0.1-3.fc27.i686.rpm --output llvm-libs.rpm
+        curl -sSL https://rpmfind.net/linux/fedora-secondary/releases/27/Everything/i386/os/Packages/c/clang-libs-4.0.1-5.fc27.i686.rpm --output clang-libs.rpm
+        curl -sSL https://rpmfind.net/linux/fedora/linux/updates/27/x86_64/Packages/l/libgcc-7.3.1-6.fc27.i686.rpm --output libgcc.rpm
+        curl -sSL https://rpmfind.net/linux/fedora/linux/releases/27/Everything/x86_64/os/Packages/c/compiler-rt-4.0.1-4.fc27.i686.rpm --output compiler-rt.rpm
+        dnf -y install ./llvm.rpm ./llvm-devel.rpm ./llvm-libs.rpm ./clang-libs.rpm ./libgcc.rpm ./compiler-rt.rpm
 
         # bats
         cd /vagrant

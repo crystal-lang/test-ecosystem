@@ -105,6 +105,12 @@ vagrant_fedora25_rpm: $(BINARIES)/linux.rpm services_on_host
 	vagrant ssh fedora25 -c 'cd /vagrant && make local_fedora_rpm SERVICES=stub' -- -R 5432:localhost:5432 -R 3306:localhost:3306 -R 6379:localhost:6379
 	vagrant destroy fedora25 -f
 
+.PHONY: vagrant_fedora29_rpm
+vagrant_fedora29_rpm: $(BINARIES)/linux.rpm services_on_host
+	vagrant up fedora29
+	vagrant ssh fedora29 -c 'cd /vagrant && make local_fedora_rpm SERVICES=stub' -- -R 5432:localhost:5432 -R 3306:localhost:3306 -R 6379:localhost:6379
+	vagrant destroy fedora29 -f
+
 define prepare_services
 	sleep 5
 	docker-compose exec postgres createdb crystal
