@@ -153,6 +153,7 @@ binaries: $(BINARIES)/darwin.tar.gz $(BINARIES)/linux.deb $(BINARIES)/linux.tar.
 clean: clean_vagrant
 	rm -Rf $(BINARIES)/*
 	rm -Rf shards_cache
+	docker-compose down -v
 
 clean_vagrant:
 	vagrant destroy -f debian xenial xenial32 fedora25 fedora29
