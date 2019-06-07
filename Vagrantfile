@@ -44,12 +44,12 @@ Vagrant.configure("2") do |config|
                        libyaml-devel openssl-devel readline-devel redhat-rpm-config
         dnf -y install sqlite-devel postgresql
 
-        curl -sSL https://rpmfind.net/linux/fedora/linux/releases/27/Everything/x86_64/os/Packages/l/llvm-4.0.1-3.fc27.i686.rpm --output llvm.rpm
-        curl -sSL https://rpmfind.net/linux/fedora/linux/releases/27/Everything/x86_64/os/Packages/l/llvm-devel-4.0.1-3.fc27.i686.rpm --output llvm-devel.rpm
-        curl -sSL https://rpmfind.net/linux/fedora/linux/releases/27/Everything/x86_64/os/Packages/l/llvm-libs-4.0.1-3.fc27.i686.rpm --output llvm-libs.rpm
-        curl -sSL https://rpmfind.net/linux/fedora-secondary/releases/27/Everything/i386/os/Packages/c/clang-libs-4.0.1-5.fc27.i686.rpm --output clang-libs.rpm
-        curl -sSL https://rpmfind.net/linux/fedora/linux/updates/27/x86_64/Packages/l/libgcc-7.3.1-6.fc27.i686.rpm --output libgcc.rpm
-        curl -sSL https://rpmfind.net/linux/fedora/linux/releases/27/Everything/x86_64/os/Packages/c/compiler-rt-4.0.1-4.fc27.i686.rpm --output compiler-rt.rpm
+        curl -sSL https://rpmfind.net/linux/fedora/linux/updates/28/Everything/x86_64/Packages/l/llvm-6.0.1-8.fc28.i686.rpm --output llvm.rpm
+        curl -sSL https://rpmfind.net/linux/fedora/linux/updates/28/Everything/x86_64/Packages/l/llvm-devel-6.0.1-8.fc28.i686.rpm --output llvm-devel.rpm
+        curl -sSL https://rpmfind.net/linux/fedora/linux/updates/28/Everything/x86_64/Packages/l/llvm-libs-6.0.1-8.fc28.i686.rpm --output llvm-libs.rpm
+        curl -sSL https://rpmfind.net/linux/fedora/linux/updates/testing/28/Everything/x86_64/Packages/c/clang-libs-6.0.1-4.fc28.i686.rpm --output clang-libs.rpm
+        curl -sSL https://rpmfind.net/linux/fedora/linux/releases/28/Everything/x86_64/os/Packages/l/libgcc-8.0.1-0.20.fc28.i686.rpm --output libgcc.rpm
+        curl -sSL https://rpmfind.net/linux/fedora/linux/updates/28/Everything/x86_64/Packages/c/compiler-rt-6.0.1-1.fc28.i686.rpm --output compiler-rt.rpm
         dnf -y install ./llvm.rpm ./llvm-devel.rpm ./llvm-libs.rpm ./clang-libs.rpm ./libgcc.rpm ./compiler-rt.rpm
 
         # bats
