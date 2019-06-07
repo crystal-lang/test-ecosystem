@@ -37,6 +37,8 @@ gh_clone will/crystal-pg
 
 gh_clone manastech/webmock.cr
 
+gh_clone veelenga/ameba
+
 gh_clone kemalcr/kemal
 gh_clone luckyframework/lucky
 gh_clone luckyframework/lucky_cli
