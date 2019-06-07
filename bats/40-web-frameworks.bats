@@ -91,6 +91,35 @@
   popd
 }
 
+@test "amber granite specs" {
+  pushd $REPOS_DIR/amberframework/granite
+  shards
+  rm -rf ./lib/db && ln -s $REPOS_DIR/crystal-lang/crystal-db ./lib/db
+  rm -rf ./lib/mysql && ln -s $REPOS_DIR/crystal-lang/crystal-mysql ./lib/mysql
+  rm -rf ./lib/pg && ln -s $REPOS_DIR/will/crystal-pg ./lib/pg
+  rm -rf ./lib/sqlite3 && ln -s $REPOS_DIR/crystal-lang/crystal-sqlite3 ./lib/sqlite3
+
+  export PG_DATABASE_URL="postgres://postgres:@$POSTGRES_HOST:5432/postgres"
+  export MYSQL_DATABASE_URL="mysql://root@$MYSQL_HOST:3306/test_granite"
+  export SQLITE_DATABASE_URL="sqlite3:./test.db"
+
+  export CURRENT_ADAPTER="sqlite"
+  crystal spec $CRYSTAL_BUILD_OPTS
+
+  export CURRENT_ADAPTER="mysql"
+  crystal spec $CRYSTAL_BUILD_OPTS
+
+  export CURRENT_ADAPTER="pg"
+  crystal spec $CRYSTAL_BUILD_OPTS
+
+  unset PG_DATABASE_URL
+  unset MYSQL_DATABASE_URL
+  unset SQLITE_DATABASE_URL
+  unset CURRENT_ADAPTER
+
+  popd
+}
+
 @test "amber specs (build)" {
   pushd $REPOS_DIR/amberframework/amber
 

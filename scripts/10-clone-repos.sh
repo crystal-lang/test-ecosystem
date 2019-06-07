@@ -44,3 +44,4 @@ gh_clone luckyframework/lucky
 gh_clone luckyframework/lucky_cli
 gh_clone luckyframework/avram
 gh_clone amberframework/amber
+gh_clone amberframework/granite

@@ -116,9 +116,10 @@ vagrant_fedora29_rpm: $(BINARIES)/linux.rpm services_on_host
 	vagrant destroy fedora29 -f
 
 define prepare_services
-	sleep 5
+	sleep 7
 	docker-compose exec postgres createdb -U postgres crystal
 	docker-compose exec postgres createdb -U postgres test_app_development
+	docker-compose exec mysql mysql -uroot --execute="CREATE DATABASE test_granite"
 endef
 
 .PHONY: services_on_host
