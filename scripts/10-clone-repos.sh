@@ -40,5 +40,5 @@ gh_clone manastech/webmock.cr
 gh_clone kemalcr/kemal
 gh_clone luckyframework/lucky
 gh_clone luckyframework/lucky_cli
-gh_clone luckyframework/lucky_record
+gh_clone luckyframework/avram
 gh_clone amberframework/amber
