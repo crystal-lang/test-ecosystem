@@ -4,8 +4,8 @@
   pushd $REPOS_DIR/kemalcr/kemal
   shards
 
-  crystal spec
-  crystal spec --release --no-debug
+  crystal spec $CRYSTAL_BUILD_OPTS
+  crystal spec $CRYSTAL_BUILD_OPTS --release --no-debug
 
   popd
 }
@@ -26,7 +26,7 @@
 
   echo 'require "kemal";get "/" { "Hello World!"};Kemal.run' > ./src/kemal101.cr
   shards
-  crystal build ./src/kemal101.cr # -D without_openssl
+  crystal build ./src/kemal101.cr $CRYSTAL_BUILD_OPTS # -D without_openssl
 
   popd
   popd
@@ -39,7 +39,7 @@
   rm -rf ./lib/pg && ln -s $REPOS_DIR/will/crystal-pg ./lib/pg
   rm -rf ./lib/lucky_cli && ln -s $REPOS_DIR/luckyframework/lucky_cli ./lib/lucky_cli
 
-  crystal spec
+  crystal spec # $CRYSTAL_BUILD_OPTS
 
   popd
 }
@@ -48,7 +48,7 @@
   pushd $REPOS_DIR/luckyframework/lucky_cli
   shards
 
-  crystal build src/lucky.cr --release --no-debug
+  crystal build src/lucky.cr $CRYSTAL_BUILD_OPTS --release --no-debug
 
   popd
 }
@@ -83,7 +83,7 @@
   shards
   rm -rf ./lib/lucky && ln -s $REPOS_DIR/luckyframework/lucky ./lib/lucky
 
-  shards build
+  shards build $CRYSTAL_BUILD_OPTS
 
   popd
   popd
@@ -98,7 +98,7 @@
   rm -rf ./lib/pg && ln -s $REPOS_DIR/will/crystal-pg ./lib/pg
   rm -rf ./lib/sqlite3 && ln -s $REPOS_DIR/crystal-lang/crystal-sqlite3 ./lib/sqlite3
 
-  shards build
+  shards build $CRYSTAL_BUILD_OPTS
   ./bin/amber -v
 
   export CI="true"
@@ -108,11 +108,10 @@
 
   # unable to run specs because spec/build_spec_[granite|crecto].cr:23/49
   # expect localhost database instead of DATABASE_URL
-  crystal build ./spec/build_spec_granite.cr
-  crystal build ./spec/build_spec_crecto.cr
+  crystal build ./spec/build_spec_granite.cr $CRYSTAL_BUILD_OPTS
 
   # Environment file not found for ./config/environments/production
-  crystal build ./spec/amber/**.cr
+  crystal build ./spec/amber/**.cr $CRYSTAL_BUILD_OPTS
 
   unset CI
   unset AMBER_ENV
@@ -134,7 +133,7 @@
   rm -rf ./lib/sqlite3 && ln -s $REPOS_DIR/crystal-lang/crystal-sqlite3 ./lib/sqlite3
   rm -rf ./lib/amber && ln -s $REPOS_DIR/amberframework/amber ./lib/amber
 
-  shards build
+  shards build $CRYSTAL_BUILD_OPTS
 
   popd
   popd
