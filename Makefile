@@ -154,9 +154,11 @@ endef
 .PHONY: binaries
 binaries: $(BINARIES)/darwin.tar.gz $(BINARIES)/linux.deb $(BINARIES)/linux.tar.gz $(BINARIES)/linux32.deb $(BINARIES)/linux.rpm $(BINARIES)/linux32.rpm
 
-clean: clean_vagrant
+clean: clean_vagrant clean_services
 	rm -Rf $(BINARIES)/*
 	rm -Rf shards_cache
+
+clean_services:
 	docker-compose down -v
 
 clean_vagrant:
