@@ -3,7 +3,7 @@
 @test "db specs" {
   pushd $REPOS_DIR/crystal-lang/crystal-db
   shards
-  crystal spec
+  crystal spec $CRYSTAL_BUILD_OPTS
   popd
 }
 
