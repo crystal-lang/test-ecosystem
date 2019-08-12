@@ -39,7 +39,7 @@
   rm -rf ./lib/pg && ln -s $REPOS_DIR/will/crystal-pg ./lib/pg
   rm -rf ./lib/lucky_cli && ln -s $REPOS_DIR/luckyframework/lucky_cli ./lib/lucky_cli
 
-  crystal spec # $CRYSTAL_BUILD_OPTS
+  crystal spec # $CRYSTAL_BUILD_OPTS # due to #{(distance / 30).round.to_i} months ...
 
   popd
 }
