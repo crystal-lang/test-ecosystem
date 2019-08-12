@@ -27,6 +27,7 @@ function gh_clone {
 }
 
 gh_clone crystal-lang/crystal
+gh_clone crystal-lang/shards crystal/v0.30.0 bcardiff/shards
 
 gh_clone crystal-lang/crystal_lib
 
