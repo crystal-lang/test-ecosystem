@@ -1,3 +1,4 @@
 .vagrant
 binaries
 shards_cache
+*cloudimg-console\.log
