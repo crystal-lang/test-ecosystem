@@ -14,6 +14,14 @@ DOCKER_NETWORK = crystal-test
 SHELL := /bin/bash
 BINARIES = binaries
 
+.PHONY: local
+local: services_on_host
+	rm -Rf /tmp/crystal
+	mkdir /tmp/crystal
+	source ./docker/hosts.local.env \
+	&& source ./scripts/default-options.env \
+	&& PATH=$$LOCAL_CRYSTAL:$$LOCAL_SHARDS:$$PATH ./clone-and-run-local.sh
+
 .PHONY: local_darwin
 local_darwin: $(BINARIES)/darwin.tar.gz services_on_host
 	rm -Rf /tmp/crystal
@@ -47,12 +55,12 @@ local_fedora_rpm: $(BINARIES)/linux.rpm services_on_host
 	&& LIBRARY_PATH=/usr/lib/crystal/lib/ ./clone-and-run-local.sh
 
 define run_bats_in_docker
-	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats -v $(CURDIR)/shards_cache:/shards_cache $(DOCKER_IMAGE_NAME):$(1) $2 /bin/bash -c "source ./scripts/default-options.env && /scripts/10-clone-repos.sh && /scripts/20-run-bats.sh"
+	docker run --rm --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats -v $(CURDIR)/samples:/samples -v $(CURDIR)/shards_cache:/shards_cache $(DOCKER_IMAGE_NAME):$(1) $2 /bin/bash -c "source ./scripts/default-options.env && /scripts/10-clone-repos.sh && /scripts/20-run-bats.sh"
 endef
 
 # replace calls to run_bats_in_docker with run_shell_in_docker to get an interactive shell
 define run_shell_in_docker
-	docker run --rm -it --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats -v $(CURDIR)/shards_cache:/shards_cache $(DOCKER_IMAGE_NAME):$(1) $2 /bin/bash
+	docker run --rm -it --env-file=./docker/hosts.network.env --network=$(DOCKER_NETWORK) -v $(CURDIR)/bats:/bats -v $(CURDIR)/samples:/samples -v $(CURDIR)/shards_cache:/shards_cache $(DOCKER_IMAGE_NAME):$(1) $2 /bin/bash
 endef
 
 .PHONY: docker_debian8_deb
