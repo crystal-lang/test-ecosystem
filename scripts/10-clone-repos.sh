@@ -46,3 +46,7 @@ gh_clone luckyframework/lucky_cli
 gh_clone luckyframework/avram
 gh_clone amberframework/amber
 gh_clone amberframework/granite
+
+# Copy samples directory to $REPOS_DIR/samples
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cp -r ${DIR}/../samples ${REPOS_DIR}/samples

@@ -1,5 +1,13 @@
 #!/usr/bin/env bats
 
+@test "check crystal deprecated on lib" {
+  pushd $REPOS_DIR/samples/deprecated-check
+  run crystal build deprecated-check/foo.cr
+  [[ "$output" =~ "A total of 1 warnings were found." ]]
+  [ "$status" -eq 1 ]
+  popd
+}
+
 @test "crystal version" {
   run crystal --version
   [ "$status" -eq 0 ]
