@@ -111,6 +111,12 @@ vagrant_xenial32_deb: services_on_host
 	vagrant ssh xenial32 -c 'cd /vagrant && make local_linux32_deb SERVICES=stub' -- -R 5432:localhost:5432 -R 3306:localhost:3306 -R 6379:localhost:6379
 	vagrant destroy xenial32 -f
 
+.PHONY: vagrant_bionic_deb
+vagrant_bionic_deb: services_on_host
+	vagrant up bionic
+	vagrant ssh bionic -c 'cd /vagrant && make local_linux_deb SERVICES=stub' -- -R 5432:localhost:5432 -R 3306:localhost:3306 -R 6379:localhost:6379
+	vagrant destroy bionic -f
+
 .PHONY: vagrant_fedora_rpm
 vagrant_fedora_rpm: $(BINARIES)/linux.rpm services_on_host
 	vagrant up fedora
@@ -165,7 +171,7 @@ clean_services:
 	docker-compose down -v
 
 clean_vagrant:
-	vagrant destroy -f debian xenial xenial32 fedora
+	vagrant destroy -f debian xenial xenial32 bionic fedora
 
 $(BINARIES)/darwin.tar.gz: crystal-versions.env
 	$(call prepare_binary,$(CRYSTAL_DARWIN_TARGZ),darwin.tar.gz)

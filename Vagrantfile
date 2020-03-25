@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-  [%w(debian debian/jessie64), %w(xenial ubuntu/xenial64), %w(xenial32 ubuntu/xenial32)].each do |name, box|
+  [%w(debian debian/jessie64), %w(xenial ubuntu/xenial64), %w(xenial32 ubuntu/xenial32), %w(bionic ubuntu/bionic64)].each do |name, box|
     config.vm.define(name) do |c|
       c.vm.box = box
 
@@ -21,6 +21,10 @@ Vagrant.configure("2") do |config|
          && curl -sSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
          && apt-get update \
          && apt-get install -y llvm-4.0 libclang-4.0-dev
+
+        # wget https://apt.llvm.org/llvm.sh
+        # chmod +x llvm.sh
+        # ./llvm.sh 9
 
         # bats
         cd /vagrant
