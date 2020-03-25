@@ -22,7 +22,7 @@ Define the artifacts of the version to stress in `crystal-versions.env` run the 
 
 * `vagrant_xenial32_deb` will check the `.deb` in the according 32-bits ubuntu vagrant machine.
 
-* `vagrant_fedora25_rpm`, `vagrant_fedora29_rpm` will check the `.rpm` in the according fedora vagrant machine.
+* `vagrant_fedora_rpm` will check the `.rpm` in the according fedora vagrant machine.
   * Note: provisioning scripts seems to fail sometimes. `crystal_lib specs` and `crystal compiler` are failing due to dependencies.
 
 * `local_darwin` will check the osx `tar.gz` in the local osx machine
