@@ -16,7 +16,7 @@
   rm -rf test01
   crystal init app test01
   cd test01
-  run crystal spec $CRYSTAL_BUILD_OPTS
+  run crystal spec
   [ "$status" -eq 1 ]
 }
 

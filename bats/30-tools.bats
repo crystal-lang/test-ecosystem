@@ -4,8 +4,8 @@
   pushd $REPOS_DIR/veelenga/ameba
   shards
 
-  shards build $CRYSTAL_BUILD_OPTS
-  crystal spec $CRYSTAL_BUILD_OPTS
+  shards build
+  crystal spec
   ./bin/ameba --all
 
   popd

@@ -4,8 +4,8 @@
   pushd $REPOS_DIR/kemalcr/kemal
   shards
 
-  crystal spec $CRYSTAL_BUILD_OPTS
-  crystal spec $CRYSTAL_BUILD_OPTS --release --no-debug
+  crystal spec
+  crystal spec --release --no-debug
 
   popd
 }
@@ -26,7 +26,7 @@
 
   echo 'require "kemal";get "/" { "Hello World!"};Kemal.run' > ./src/kemal101.cr
   shards
-  crystal build ./src/kemal101.cr $CRYSTAL_BUILD_OPTS # -D without_openssl
+  crystal build ./src/kemal101.cr # -D without_openssl
 
   popd
   popd
@@ -39,7 +39,7 @@
   rm -rf ./lib/pg && ln -s $REPOS_DIR/will/crystal-pg ./lib/pg
   rm -rf ./lib/lucky_cli && ln -s $REPOS_DIR/luckyframework/lucky_cli ./lib/lucky_cli
 
-  crystal spec # $CRYSTAL_BUILD_OPTS # due to #{(distance / 30).round.to_i} months ...
+  crystal spec # due to #{(distance / 30).round.to_i} months ...
 
   popd
 }
@@ -48,7 +48,7 @@
   pushd $REPOS_DIR/luckyframework/lucky_cli
   shards
 
-  crystal build src/lucky.cr $CRYSTAL_BUILD_OPTS --release --no-debug
+  crystal build src/lucky.cr --release --no-debug
 
   popd
 }
@@ -62,16 +62,21 @@
 
   ln -s $REPOS_DIR/luckyframework/lucky_cli/lucky ./lucky
   export DATABASE_URL="postgres://postgres@$POSTGRES_HOST:5432/lucky_record_test"
+  export BACKUP_DATABASE_URL="postgres://postgres@$POSTGRES_HOST:5432/TestDatabase"
 
-  crystal run tasks.cr $CRYSTAL_BUILD_OPTS -- db.create
-  crystal run tasks.cr $CRYSTAL_BUILD_OPTS -- db.migrate
-  crystal run tasks.cr $CRYSTAL_BUILD_OPTS -- db.rollback_all
-  crystal run tasks.cr $CRYSTAL_BUILD_OPTS -- db.migrate.one
-  crystal run tasks.cr $CRYSTAL_BUILD_OPTS -- db.migrate
-  crystal spec $CRYSTAL_BUILD_OPTS
-  shards build $CRYSTAL_BUILD_OPTS
+  crystal run tasks.cr -- db.drop
+  crystal run tasks.cr -- db.create
+  crystal run tasks.cr -- db.migrate
+  crystal run tasks.cr -- db.rollback_to 20180802180356
+  crystal run tasks.cr -- db.rollback_all
+  crystal run tasks.cr -- db.migrate.one
+  crystal run tasks.cr -- db.migrate
+  crystal run tasks.cr -- db.migrations.status
+  crystal spec
+  shards build
 
   unset DATABASE_URL
+  unset BACKUP_DATABASE_URL
 
   popd
 }
@@ -79,13 +84,13 @@
 @test "lucky init" {
   pushd $REPOS_DIR/luckyframework
 
-  ./lucky_cli/lucky init lucky101
+  ./lucky_cli/lucky init.custom lucky101 --api
   pushd lucky101
 
   shards
   rm -rf ./lib/lucky && ln -s $REPOS_DIR/luckyframework/lucky ./lib/lucky
 
-  shards build $CRYSTAL_BUILD_OPTS
+  shards build
 
   popd
   popd
@@ -104,13 +109,13 @@
   export SQLITE_DATABASE_URL="sqlite3:./test.db"
 
   export CURRENT_ADAPTER="sqlite"
-  crystal spec $CRYSTAL_BUILD_OPTS
+  crystal spec
 
   export CURRENT_ADAPTER="mysql"
-  crystal spec $CRYSTAL_BUILD_OPTS
+  crystal spec
 
   export CURRENT_ADAPTER="pg"
-  crystal spec $CRYSTAL_BUILD_OPTS
+  crystal spec
 
   unset PG_DATABASE_URL
   unset MYSQL_DATABASE_URL
@@ -129,7 +134,7 @@
   rm -rf ./lib/pg && ln -s $REPOS_DIR/will/crystal-pg ./lib/pg
   rm -rf ./lib/sqlite3 && ln -s $REPOS_DIR/crystal-lang/crystal-sqlite3 ./lib/sqlite3
 
-  shards build $CRYSTAL_BUILD_OPTS
+  shards build
   ./bin/amber -v
 
   export CI="true"
@@ -139,10 +144,10 @@
 
   # unable to run specs because spec/build_spec_[granite|crecto].cr:23/49
   # expect localhost database instead of DATABASE_URL
-  crystal build ./spec/build_spec_granite.cr $CRYSTAL_BUILD_OPTS
+  crystal build ./spec/build_spec_granite.cr
 
   # Environment file not found for ./config/environments/production
-  crystal build ./spec/amber/**.cr $CRYSTAL_BUILD_OPTS
+  crystal build ./spec/amber/**.cr
 
   unset CI
   unset AMBER_ENV
@@ -164,7 +169,7 @@
   rm -rf ./lib/sqlite3 && ln -s $REPOS_DIR/crystal-lang/crystal-sqlite3 ./lib/sqlite3
   rm -rf ./lib/amber && ln -s $REPOS_DIR/amberframework/amber ./lib/amber
 
-  shards build $CRYSTAL_BUILD_OPTS
+  shards build
 
   popd
   popd
