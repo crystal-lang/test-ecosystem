@@ -22,7 +22,8 @@
   fi
 
   make clean_cache crystal
-  make std_spec compiler_spec
+  CRYSTAL_OPTS="" make .build/std_spec .build/compiler_spec
+  # CRYSTAL_OPTS="" make std_spec compiler_spec
 
   popd
 }
