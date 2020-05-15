@@ -1,5 +1,9 @@
 #!/usr/bin/env bats
 
+override_shard () {
+  rm -rf ./.crystal/shards/$1 && ln -s $2 ./.crystal/shards/$1
+}
+
 @test "db specs" {
   pushd $REPOS_DIR/crystal-lang/crystal-db
   shards
@@ -11,7 +15,7 @@
   pushd $REPOS_DIR/crystal-lang/crystal-sqlite3
 
   shards
-  rm -rf ./lib/db && ln -s $REPOS_DIR/crystal-lang/crystal-db ./lib/db
+  override_shard db $REPOS_DIR/crystal-lang/crystal-db
 
   crystal spec
   popd
@@ -21,7 +25,7 @@
   pushd $REPOS_DIR/crystal-lang/crystal-mysql
 
   shards
-  rm -rf ./lib/db && ln -s $REPOS_DIR/crystal-lang/crystal-db ./lib/db
+  override_shard db $REPOS_DIR/crystal-lang/crystal-db
 
   DATABASE_HOST="$MYSQL_HOST" crystal spec
   popd
@@ -31,7 +35,7 @@
   pushd $REPOS_DIR/will/crystal-pg
 
   shards
-  rm -rf ./lib/db && ln -s $REPOS_DIR/crystal-lang/crystal-db ./lib/db
+  override_shard db $REPOS_DIR/crystal-lang/crystal-db
 
   DATABASE_URL="postgres://postgres@$POSTGRES_HOST/crystal" crystal spec
   popd

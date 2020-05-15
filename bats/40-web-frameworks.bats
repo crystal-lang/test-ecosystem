@@ -1,5 +1,9 @@
 #!/usr/bin/env bats
 
+override_shard () {
+  rm -rf ./.crystal/shards/$1 && ln -s $2 ./.crystal/shards/$1
+}
+
 @test "kemal specs" {
   pushd $REPOS_DIR/kemalcr/kemal
   shards
@@ -15,8 +19,6 @@
 
   crystal init app kemal101
   pushd kemal101
-
-  mkdir ./lib
 
   echo "" >> ./shard.yml
   echo "dependencies:" >> ./shard.yml
@@ -35,9 +37,9 @@
 @test "lucky specs" {
   pushd $REPOS_DIR/luckyframework/lucky
   shards
-  rm -rf ./lib/db && ln -s $REPOS_DIR/crystal-lang/crystal-db ./lib/db
-  rm -rf ./lib/pg && ln -s $REPOS_DIR/will/crystal-pg ./lib/pg
-  rm -rf ./lib/lucky_cli && ln -s $REPOS_DIR/luckyframework/lucky_cli ./lib/lucky_cli
+  override_shard db $REPOS_DIR/crystal-lang/crystal-db
+  override_shard pg $REPOS_DIR/will/crystal-pg
+  override_shard lucky_cli $REPOS_DIR/luckyframework/lucky_cli
 
   crystal spec # due to #{(distance / 30).round.to_i} months ...
 
@@ -56,9 +58,9 @@
 @test "lucky avram specs" {
   pushd $REPOS_DIR/luckyframework/avram
   shards
-  rm -rf ./lib/db && ln -s $REPOS_DIR/crystal-lang/crystal-db ./lib/db
-  rm -rf ./lib/pg && ln -s $REPOS_DIR/will/crystal-pg ./lib/pg
-  rm -rf ./lib/lucky_cli && ln -s $REPOS_DIR/luckyframework/lucky_cli ./lib/lucky_cli
+  override_shard db $REPOS_DIR/crystal-lang/crystal-db
+  override_shard pg $REPOS_DIR/will/crystal-pg
+  override_shard lucky_cli $REPOS_DIR/luckyframework/lucky_cli
 
   ln -s $REPOS_DIR/luckyframework/lucky_cli/lucky ./lucky
   export DATABASE_URL="postgres://postgres@$POSTGRES_HOST:5432/lucky_record_test"
@@ -88,7 +90,7 @@
   pushd lucky101
 
   shards
-  rm -rf ./lib/lucky && ln -s $REPOS_DIR/luckyframework/lucky ./lib/lucky
+  rm -rf ./.crystal/shards/lucky && ln -s $REPOS_DIR/luckyframework/lucky ./.crystal/shards/lucky
 
   shards build
 
@@ -99,10 +101,10 @@
 @test "amber granite specs" {
   pushd $REPOS_DIR/amberframework/granite
   shards
-  rm -rf ./lib/db && ln -s $REPOS_DIR/crystal-lang/crystal-db ./lib/db
-  rm -rf ./lib/mysql && ln -s $REPOS_DIR/crystal-lang/crystal-mysql ./lib/mysql
-  rm -rf ./lib/pg && ln -s $REPOS_DIR/will/crystal-pg ./lib/pg
-  rm -rf ./lib/sqlite3 && ln -s $REPOS_DIR/crystal-lang/crystal-sqlite3 ./lib/sqlite3
+  override_shard db $REPOS_DIR/crystal-lang/crystal-db
+  override_shard mysql $REPOS_DIR/crystal-lang/crystal-mysql
+  override_shard pg $REPOS_DIR/will/crystal-pg
+  override_shard sqlite3 $REPOS_DIR/crystal-lang/crystal-sqlite3
 
   export PG_DATABASE_URL="postgres://postgres:@$POSTGRES_HOST:5432/postgres"
   export MYSQL_DATABASE_URL="mysql://root@$MYSQL_HOST:3306/test_granite"
@@ -129,10 +131,10 @@
   pushd $REPOS_DIR/amberframework/amber
 
   shards
-  rm -rf ./lib/db && ln -s $REPOS_DIR/crystal-lang/crystal-db ./lib/db
-  rm -rf ./lib/mysql && ln -s $REPOS_DIR/crystal-lang/crystal-mysql ./lib/mysql
-  rm -rf ./lib/pg && ln -s $REPOS_DIR/will/crystal-pg ./lib/pg
-  rm -rf ./lib/sqlite3 && ln -s $REPOS_DIR/crystal-lang/crystal-sqlite3 ./lib/sqlite3
+  override_shard db $REPOS_DIR/crystal-lang/crystal-db
+  override_shard mysql $REPOS_DIR/crystal-lang/crystal-mysql
+  override_shard pg $REPOS_DIR/will/crystal-pg
+  override_shard sqlite3 $REPOS_DIR/crystal-lang/crystal-sqlite3
 
   shards build
   ./bin/amber -v
@@ -163,11 +165,11 @@
   ./amber/bin/amber new amber101
   pushd amber101
   shards
-  rm -rf ./lib/db && ln -s $REPOS_DIR/crystal-lang/crystal-db ./lib/db
-  rm -rf ./lib/mysql && ln -s $REPOS_DIR/crystal-lang/crystal-mysql ./lib/mysql
-  rm -rf ./lib/pg && ln -s $REPOS_DIR/will/crystal-pg ./lib/pg
-  rm -rf ./lib/sqlite3 && ln -s $REPOS_DIR/crystal-lang/crystal-sqlite3 ./lib/sqlite3
-  rm -rf ./lib/amber && ln -s $REPOS_DIR/amberframework/amber ./lib/amber
+  override_shard db $REPOS_DIR/crystal-lang/crystal-db
+  override_shard mysql $REPOS_DIR/crystal-lang/crystal-mysql
+  override_shard pg $REPOS_DIR/will/crystal-pg
+  override_shard sqlite3 $REPOS_DIR/crystal-lang/crystal-sqlite3
+  override_shard amber $REPOS_DIR/amberframework/amber
 
   shards build
 
