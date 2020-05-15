@@ -2,7 +2,7 @@
 
 @test "check crystal deprecated on lib" {
   pushd $REPOS_DIR/samples/deprecated-check
-  run crystal build deprecated-check/foo.cr
+  run crystal build src/app.cr
   [[ "$output" =~ "A total of 1 warnings were found." ]]
   [ "$status" -eq 1 ]
   popd
