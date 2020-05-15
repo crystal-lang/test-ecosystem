@@ -5,6 +5,8 @@ services:
     image: postgres:9.6-alpine
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - ./scripts/lucky-init.sql:/docker-entrypoint-initdb.d/lucky-init.sql
 
   mysql:
     image: mysql:5.7

@@ -15,7 +15,10 @@ SHELL := /bin/bash
 BINARIES = binaries
 
 .PHONY: local
-local: services_on_host
+local: services_on_host run_local
+
+.PHONY: run_local
+run_local:
 	rm -Rf /tmp/crystal
 	mkdir /tmp/crystal
 	source ./docker/hosts.local.env \
@@ -124,7 +127,7 @@ vagrant_fedora_rpm: $(BINARIES)/linux.rpm services_on_host
 	vagrant destroy fedora -f
 
 define prepare_services
-	sleep 10
+	sleep 12
 	docker-compose exec postgres createdb -U postgres crystal
 	docker-compose exec postgres createdb -U postgres test_app_development
 	docker-compose exec mysql mysql -uroot --execute="CREATE DATABASE test_granite"
@@ -163,7 +166,9 @@ endef
 .PHONY: binaries
 binaries: $(BINARIES)/darwin.tar.gz $(BINARIES)/linux.deb $(BINARIES)/linux.tar.gz $(BINARIES)/linux32.deb $(BINARIES)/linux.rpm $(BINARIES)/linux32.rpm
 
-clean: clean_vagrant clean_services
+clean: clean_files clean_vagrant clean_services
+
+clean_files:
 	rm -Rf $(BINARIES)/*
 	rm -Rf shards_cache
 

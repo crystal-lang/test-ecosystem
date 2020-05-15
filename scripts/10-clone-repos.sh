@@ -20,10 +20,7 @@ function gh_clone {
 
   # checkout from shards cache
   mkdir -p $repo_wk
-  git clone $shards_cache_dir $repo_wk
-  pushd $repo_wk
-  git checkout ${2:-master}
-  popd
+  git clone --branch ${2:-master} $shards_cache_dir $repo_wk
 }
 
 gh_clone crystal-lang/crystal
@@ -48,5 +45,5 @@ gh_clone amberframework/amber
 gh_clone amberframework/granite
 
 # Copy samples directory to $REPOS_DIR/samples
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+DIR=$(dirname $0)
 cp -r ${DIR}/../samples ${REPOS_DIR}/samples

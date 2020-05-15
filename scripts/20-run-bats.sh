@@ -3,6 +3,7 @@ set -e
 
 which crystal
 crystal --version
+crystal env
 
 which shards
 shards --version
