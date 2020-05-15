@@ -2,7 +2,7 @@ ARG debian_docker_image
 FROM ${debian_docker_image}
 
 RUN apt-get update \
- && apt-get install -y git build-essential tzdata pkg-config software-properties-common curl \
+    && apt-get install -y git build-essential tzdata pkg-config software-properties-common apt-transport-https ca-certificates wget curl \
     libpcre3-dev libevent-dev \
     libxml2-dev libyaml-dev libssl-dev zlib1g-dev libsqlite3-dev libgmp-dev \
     libedit-dev libreadline-dev gdb postgresql-client
@@ -11,6 +11,14 @@ RUN add-apt-repository "deb http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolcha
  && curl -sSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
  && apt-get update \
  && apt-get install -y llvm-4.0 libclang-4.0-dev
+
+# ARG llvm_version=10
+# RUN wget https://apt.llvm.org/llvm.sh \
+#  && chmod +x llvm.sh \
+#  && ./llvm.sh ${llvm_version} \
+#  && apt-get install -y libclang-${llvm_version}-dev \
+#  && ln -sf /usr/bin/ld.lld-${llvm_version} /usr/bin/ld.lld
+# ENV LLVM_CONFIG=/usr/bin/llvm-config-${llvm_version}
 
 ARG crystal_deb
 COPY ${crystal_deb} /tmp/crystal.deb
