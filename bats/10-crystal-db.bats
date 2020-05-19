@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
 override_shard () {
-  rm -rf ./.crystal/shards/$1 && ln -s $2 ./.crystal/shards/$1
+  rm -rf ./lib/$1 && ln -s $2 ./lib/$1
 }
 
 @test "db specs" {

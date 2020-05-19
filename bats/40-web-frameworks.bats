@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
 override_shard () {
-  rm -rf ./.crystal/shards/$1 && ln -s $2 ./.crystal/shards/$1
+  rm -rf ./lib/$1 && ln -s $2 ./lib/$1
 }
 
 @test "kemal specs" {
@@ -90,7 +90,7 @@ override_shard () {
   pushd lucky101
 
   shards
-  rm -rf ./.crystal/shards/lucky && ln -s $REPOS_DIR/luckyframework/lucky ./.crystal/shards/lucky
+  rm -rf ./lib/lucky && ln -s $REPOS_DIR/luckyframework/lucky ./lib/lucky
 
   shards build
 
