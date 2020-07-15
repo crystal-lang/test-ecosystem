@@ -10,7 +10,10 @@ shards --version
 
 uname -a
 
-bats $(dirname $0)/../bats/
+# bats $(dirname $0)/../bats/
+bats $(dirname $0)/../bats/00-crystal-init-spec.bats
+bats $(dirname $0)/../bats/01-shards.bats
+bats $(dirname $0)/../bats/10-crystal-db.bats
 
 crystal --version
 shards --version

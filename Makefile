@@ -19,11 +19,9 @@ local: services_on_host run_local
 
 .PHONY: run_local
 run_local:
-	rm -Rf /tmp/crystal
-	mkdir /tmp/crystal
 	source ./docker/hosts.local.env \
 	&& source ./scripts/default-options.env \
-	&& PATH=$$LOCAL_CRYSTAL:$$LOCAL_SHARDS:$$PATH ./clone-and-run-local.sh
+	&& ./clone-and-run-local.sh
 
 .PHONY: local_darwin
 local_darwin: $(BINARIES)/darwin.tar.gz services_on_host

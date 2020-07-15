@@ -1,0 +1,127 @@
+name: Test Crystal & Shards
+
+on:
+  workflow_dispatch:
+    inputs:
+      crystal_repo:
+        default: 'crystal-lang/crystal'
+        required: true
+      crystal_branch:
+        default: 'master'
+        required: true
+      shards_repo:
+        default: 'crystal-lang/shards'
+        required: true
+      shards_branch:
+        default: 'master'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: crystallang/crystal:0.35.1-build
+    services:
+      postgres:
+        image: postgres:9.6-alpine
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_DB: crystal
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      redis:
+        image: redis:alpine
+    steps:
+      - name: Install Libraries
+        run: |
+          apt-get update
+          apt-get install -y libsqlite3-dev
+      - name: Checkout Bats
+        uses: actions/checkout@v2
+        with:
+          repository: sstephenson/bats
+          path: bats
+      - name: Install Bats
+        run: |
+          cd bats
+          ./install.sh /usr/local
+      - name: Checkout Crystal
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.inputs.crystal_repo }}
+          ref: ${{ github.event.inputs.crystal_branch }}
+          # https://github.com/actions/checkout#checkout-multiple-repos-private
+          token: ${{ secrets.MY_GITHUB_PAT }}
+          path: crystal
+      - name: Checkout Shards
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.inputs.shards_repo }}
+          ref: ${{ github.event.inputs.shards_branch }}
+          # https://github.com/actions/checkout#checkout-multiple-repos-private
+          token: ${{ secrets.MY_GITHUB_PAT }}
+          path: shards
+      - name: Build Crystal
+        run: |
+          cd crystal
+          make crystal # release=1
+          bin/crystal --version
+      - name: Build Shards
+        run: |
+          cd shards
+          make bin/shards
+          bin/shards --version
+      - name: Checkout test-ecosystem
+        uses: actions/checkout@v2
+        with:
+          path: test-ecosystem
+      - name: Configure git
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+      - name: Setup env vars
+        run: |
+          echo "::set-env name=SHARDS_OPTS::--ignore-crystal-version"
+          echo "::set-env name=CRYSTAL_OPTS::--exclude-warnings none --error-on-warnings --error-trace"
+
+          echo "::set-env name=REPOS_DIR::$(readlink -f ./repos)"
+          echo "::set-env name=SHARDS_CACHE_PATH::$(readlink -f ./shards_cache)"
+
+          echo "::add-path::$(readlink -f ./shards/bin)"
+          echo "::add-path::$(readlink -f ./crystal/bin)"
+
+          echo "::set-env name=POSTGRES_HOST::postgres"
+          echo "::set-env name=MYSQL_HOST::mysql"
+          echo "::set-env name=REDIS_HOST::redis"
+      - name: Crystal & Shards information
+        run: |
+          which crystal
+          crystal --version
+          crystal env
+
+          which shards
+          shards --version
+
+          env | grep CRYSTAL
+          env | grep SHARDS
+      - name: Clone repos
+        run: |
+          ./test-ecosystem/scripts/10-clone-repos.sh
+      - run: bats ./test-ecosystem/bats/00-crystal-init-spec.bats
+        if: ${{ success() || failure() }}
+      - run: bats ./test-ecosystem/bats/01-shards.bats
+        if: ${{ success() || failure() }}
+      - run: bats ./test-ecosystem/bats/10-crystal-db.bats
+        if: ${{ success() || failure() }}
+      - run: bats ./test-ecosystem/bats/20-crystal-ext.bats
+        if: ${{ success() || failure() }}
+      - run: bats ./test-ecosystem/bats/30-tools.bats
+        if: ${{ success() || failure() }}
+
+      # - name: Run test-ecosystem
+      # - name: Run test-ecosystem
+      #   run: |
+      #     cd test-ecosystem
+      #     export PATH=$(readlink -f ../crystal/bin):$(readlink -f ../shards/bin):$PATH
+      #     make run_local
