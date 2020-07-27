@@ -66,7 +66,6 @@ jobs:
             ./shards/bin/shards
           key: ${{ runner.os }}-build-${{ hashFiles('./build-cache-key') }}
       - name: Build Crystal Deps
-        if: steps.build-cache.outputs.cache-hit != 'true'
         run: |
           cd crystal
           make deps
@@ -113,6 +112,11 @@ jobs:
           - 10-crystal-db.bats
           - 20-crystal-ext.bats
           - 30-tools.bats
+          - 40-web-frameworks-amber.bats
+          - 40-web-frameworks-kemal.bats
+          - 40-web-frameworks-lucky.bats
+          - 50-crystal.bats
+          - 60-crystal-progress.bats
       fail-fast: false
     name: test ${{ matrix.script }}
     runs-on: ubuntu-latest
