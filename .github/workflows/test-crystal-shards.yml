@@ -20,33 +20,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: crystallang/crystal:0.35.1-build
-    services:
-      postgres:
-        image: postgres:9.6-alpine
-        env:
-          POSTGRES_HOST_AUTH_METHOD: trust
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-      redis:
-        image: redis:alpine
     steps:
       - name: Install Libraries
         run: |
-          apt-get update
-          apt-get install -y libsqlite3-dev
           # for https://github.com/actions/checkout/issues/209
+          apt-get update
           apt-get install -y curl jq
-      - name: Checkout Bats
-        uses: actions/checkout@v2
-        with:
-          repository: sstephenson/bats
-          path: bats
-      - name: Install Bats
-        run: |
-          cd bats
-          ./install.sh /usr/local
       - name: Checkout Crystal
         uses: actions/checkout@v2
         with:
@@ -101,6 +80,66 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: test-ecosystem
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: files
+          path: |
+            ./test-ecosystem
+            ./crystal
+            ./shards
+
+  test:
+    strategy:
+      matrix:
+        script:
+          - 00-crystal-init-spec.bats
+          - 01-shards.bats
+          - 10-crystal-db.bats
+          - 20-crystal-ext.bats
+          - 30-tools.bats
+      fail-fast: false
+    name: test ${{ matrix.script }}
+    runs-on: ubuntu-latest
+    container: crystallang/crystal:0.35.1-build
+    services:
+      postgres:
+        image: postgres:9.6-alpine
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      redis:
+        image: redis:alpine
+    needs: build
+    steps:
+      - name: Install Libraries
+        run: |
+          apt-get update
+          apt-get install -y libsqlite3-dev
+      - name: Checkout Bats
+        uses: actions/checkout@v2
+        with:
+          repository: sstephenson/bats
+          path: bats
+      - name: Install Bats
+        run: |
+          cd bats
+          ./install.sh /usr/local
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: files
+      - name: Initialize postgres
+        uses: docker://postgres:9.6-alpine
+        with:
+          args: /bin/sh -c "psql -U postgres -h postgres -f ./test-ecosystem/scripts/pg-init.sql"
+      - name: Initialize mysql
+        uses: docker://mysql:5.7
+        with:
+          args: /bin/sh -c "mysql -uroot -h mysql < ./test-ecosystem/scripts/mysql-init.sql"
       - name: Configure git
         run: |
           git config --global user.email "you@example.com"
@@ -130,33 +169,5 @@ jobs:
 
           env | grep CRYSTAL
           env | grep SHARDS
-      - name: Clone repos
-        run: |
-          ./test-ecosystem/scripts/10-clone-repos.sh
-      - name: Initialize postgres
-        uses: docker://postgres:9.6-alpine
-        with:
-          args: /bin/sh -c "psql -U postgres -h postgres -f ./test-ecosystem/scripts/pg-init.sql"
-        if: ${{ success() || failure() }}
-      - name: Initialize mysql
-        uses: docker://mysql:5.7
-        with:
-          args: /bin/sh -c "mysql -uroot -h mysql < ./test-ecosystem/scripts/mysql-init.sql"
-        if: ${{ success() || failure() }}
-      - run: bats ./test-ecosystem/bats/00-crystal-init-spec.bats
-        if: ${{ success() || failure() }}
-      - run: bats ./test-ecosystem/bats/01-shards.bats
-        if: ${{ success() || failure() }}
-      - run: bats ./test-ecosystem/bats/10-crystal-db.bats
-        if: ${{ success() || failure() }}
-      - run: bats ./test-ecosystem/bats/20-crystal-ext.bats
-        if: ${{ success() || failure() }}
-      - run: bats ./test-ecosystem/bats/30-tools.bats
-        if: ${{ success() || failure() }}
-
-      # - name: Run test-ecosystem
-      # - name: Run test-ecosystem
-      #   run: |
-      #     cd test-ecosystem
-      #     export PATH=$(readlink -f ../crystal/bin):$(readlink -f ../shards/bin):$PATH
-      #     make run_local
+      - run: ./test-ecosystem/scripts/10-clone-repos.sh
+      - run: bats ./test-ecosystem/bats/${{ matrix.script }}
