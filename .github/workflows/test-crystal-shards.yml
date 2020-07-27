@@ -80,14 +80,23 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: test-ecosystem
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+      - name: Artifact (with permissions)
+        uses: actions/cache@v2
         with:
-          name: files
           path: |
             ./test-ecosystem
             ./crystal
             ./shards
+          key: artifacts-${{ github.run_id }}-${{ github.run_number }}
+      # Workaround https://github.com/actions/download-artifact/issues/14
+      # - name: Upload artifacts
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: files
+      #     path: |
+      #       ./test-ecosystem
+      #       ./crystal
+      #       ./shards
 
   test:
     strategy:
@@ -128,10 +137,19 @@ jobs:
         run: |
           cd bats
           ./install.sh /usr/local
-      - name: Download artifacts
-        uses: actions/download-artifact@v2
+      - name: Artifact (with permissions)
+        uses: actions/cache@v2
         with:
-          name: files
+          path: |
+            ./test-ecosystem
+            ./crystal
+            ./shards
+          key: artifacts-${{ github.run_id }}-${{ github.run_number }}
+      # Workaround https://github.com/actions/download-artifact/issues/14
+      # - name: Download artifacts
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: files
       - name: Initialize postgres
         uses: docker://postgres:9.6-alpine
         with:
