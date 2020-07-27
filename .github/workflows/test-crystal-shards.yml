@@ -25,7 +25,6 @@ jobs:
         image: postgres:9.6-alpine
         env:
           POSTGRES_HOST_AUTH_METHOD: trust
-          POSTGRES_DB: crystal
       mysql:
         image: mysql:5.7
         env:
@@ -37,6 +36,8 @@ jobs:
         run: |
           apt-get update
           apt-get install -y libsqlite3-dev
+          # for https://github.com/actions/checkout/issues/209
+          apt-get install -y curl jq
       - name: Checkout Bats
         uses: actions/checkout@v2
         with:
@@ -54,6 +55,10 @@ jobs:
           # https://github.com/actions/checkout#checkout-multiple-repos-private
           token: ${{ secrets.MY_GITHUB_PAT }}
           path: crystal
+      # https://github.com/actions/checkout/issues/209
+      - id: get-crystal-sha
+        run: |
+          echo ::set-output name=sha::$( curl -u "u:${{ secrets.MY_GITHUB_PAT }}" https://api.github.com/repos/${{ github.event.inputs.crystal_repo }}/git/ref/heads/${{ github.event.inputs.crystal_branch }} | jq .object.sha | tr -d '"' )
       - name: Checkout Shards
         uses: actions/checkout@v2
         with:
@@ -62,12 +67,32 @@ jobs:
           # https://github.com/actions/checkout#checkout-multiple-repos-private
           token: ${{ secrets.MY_GITHUB_PAT }}
           path: shards
+      - id: get-shards-sha
+        run: |
+          echo ::set-output name=sha::$( curl -u "u:${{ secrets.MY_GITHUB_PAT }}" https://api.github.com/repos/${{ github.event.inputs.shards_repo }}/git/ref/heads/${{ github.event.inputs.shards_branch }} | jq .object.sha | tr -d '"' )
+      - name: Compute build cache keys
+        run: |
+          crystal env CRYSTAL_VERSION > ./build-cache-key
+          cd crystal
+          echo "CRYSTAL_SHA1=${{ steps.get-crystal-sha.outputs.sha }}" >> ../build-cache-key
+          cd ../shards
+          echo "SHARDS_SHA1=${{ steps.get-shards-sha.outputs.sha }}" >> ../build-cache-key
+      - name: Build cache
+        id: build-cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./crystal/.build/crystal
+            ./shards/bin/shards
+          key: ${{ runner.os }}-build-${{ hashFiles('./build-cache-key') }}
       - name: Build Crystal
+        if: steps.build-cache.outputs.cache-hit != 'true'
         run: |
           cd crystal
           make crystal # release=1
           bin/crystal --version
       - name: Build Shards
+        if: steps.build-cache.outputs.cache-hit != 'true'
         run: |
           cd shards
           make bin/shards
@@ -108,6 +133,16 @@ jobs:
       - name: Clone repos
         run: |
           ./test-ecosystem/scripts/10-clone-repos.sh
+      - name: Initialize postgres
+        uses: docker://postgres:9.6-alpine
+        with:
+          args: /bin/sh -c "psql -U postgres -h postgres -f ./test-ecosystem/scripts/pg-init.sql"
+        if: ${{ success() || failure() }}
+      - name: Initialize mysql
+        uses: docker://mysql:5.7
+        with:
+          args: /bin/sh -c "mysql -uroot -h mysql < ./test-ecosystem/scripts/mysql-init.sql"
+        if: ${{ success() || failure() }}
       - run: bats ./test-ecosystem/bats/00-crystal-init-spec.bats
         if: ${{ success() || failure() }}
       - run: bats ./test-ecosystem/bats/01-shards.bats

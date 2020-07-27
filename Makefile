@@ -126,9 +126,7 @@ vagrant_fedora_rpm: $(BINARIES)/linux.rpm services_on_host
 
 define prepare_services
 	sleep 12
-	docker-compose exec postgres createdb -U postgres crystal
-	docker-compose exec postgres createdb -U postgres test_app_development
-	docker-compose exec mysql mysql -uroot --execute="CREATE DATABASE test_granite"
+	./scripts/prepare-services.sh
 endef
 
 .PHONY: services_on_host
