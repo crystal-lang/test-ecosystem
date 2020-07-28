@@ -33,14 +33,14 @@ gh_clone crystal-lang/crystal-mysql
 gh_clone crystal-lang/crystal-sqlite3
 gh_clone will/crystal-pg
 
-gh_clone manastech/webmock.cr
+gh_clone manastech/webmock.cr crystal/1.0.0
 
 gh_clone veelenga/ameba
 
-gh_clone kemalcr/kemal
-gh_clone luckyframework/lucky
-gh_clone luckyframework/lucky_cli
-gh_clone luckyframework/avram
+gh_clone kemalcr/kemal refactor/run_spec_exit_status bcardiff/kemal
+gh_clone luckyframework/lucky v0.23.0
+gh_clone luckyframework/lucky_cli v0.23.0
+gh_clone luckyframework/avram v0.16.0
 gh_clone amberframework/amber
 gh_clone amberframework/granite
 
