@@ -15,6 +15,12 @@ on:
       shards_branch:
         default: 'master'
         required: true
+      crystal_opts:
+        default: '--exclude-warnings none --error-on-warnings --error-trace'
+        required: false
+      shards_opts:
+        default: '--ignore-crystal-version'
+        required: false
 
 jobs:
   build:
@@ -174,8 +180,8 @@ jobs:
           git config --global user.name "Your Name"
       - name: Setup env vars
         run: |
-          echo "::set-env name=SHARDS_OPTS::--ignore-crystal-version"
-          echo "::set-env name=CRYSTAL_OPTS::--exclude-warnings none --error-on-warnings --error-trace"
+          echo "::set-env name=SHARDS_OPTS::${{ github.event.inputs.shards_opts }}"
+          echo "::set-env name=CRYSTAL_OPTS::${{ github.event.inputs.crystal_opts }}"
 
           echo "::set-env name=REPOS_DIR::$(readlink -f ./repos)"
           echo "::set-env name=SHARDS_CACHE_PATH::$(readlink -f ./shards_cache)"
