@@ -151,7 +151,7 @@ jobs:
       - name: Install Libraries
         run: |
           apt-get update
-          apt-get install -y libsqlite3-dev postgresql-client
+          apt-get install -y libsqlite3-dev postgresql-client libclang-dev
       - name: Checkout Bats
         uses: actions/checkout@v2
         with:
