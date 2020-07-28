@@ -27,6 +27,14 @@ jobs:
     runs-on: ubuntu-latest
     container: crystallang/crystal:0.35.1-build
     steps:
+      - name: Workflow Arguments
+        run: |
+          echo "crystal_repo: ${{ github.event.inputs.crystal_repo }}"
+          echo "crystal_branch: ${{ github.event.inputs.crystal_branch }}"
+          echo "shards_repo: ${{ github.event.inputs.shards_repo }}"
+          echo "shards_branch: ${{ github.event.inputs.shards_branch }}"
+          echo "crystal_opts: ${{ github.event.inputs.crystal_opts }}"
+          echo "shards_opts: ${{ github.event.inputs.shards_opts }}"
       - name: Install Libraries
         run: |
           # for https://github.com/actions/checkout/issues/209
