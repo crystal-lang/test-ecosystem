@@ -134,7 +134,7 @@ jobs:
       fail-fast: false
     name: test ${{ matrix.script }}
     runs-on: ubuntu-latest
-    container: crystallang/crystal:0.35.1-build
+    container: ubuntu:latest
     services:
       postgres:
         image: postgres:9.6-alpine
@@ -150,8 +150,23 @@ jobs:
     steps:
       - name: Install Libraries
         run: |
+          export DEBIAN_FRONTEND=noninteractive
+
           apt-get update
-          apt-get install -y libsqlite3-dev postgresql-client libclang-dev
+
+          # crystal deps
+          apt-get install -y git build-essential pkg-config software-properties-common curl wget \
+            libpcre3-dev libevent-dev \
+            libxml2-dev libyaml-dev libssl-dev zlib1g-dev libsqlite3-dev libgmp-dev \
+            libedit-dev libreadline-dev gdb postgresql-client
+
+          # llvm libclang
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          ./llvm.sh 10
+          apt-get install -y libclang-10-dev
+          ln -sf /usr/bin/ld.lld-10 /usr/bin/ld.lld
+          export LLVM_CONFIG=/usr/bin/llvm-config-10
       - name: Checkout Bats
         uses: actions/checkout@v2
         with:
