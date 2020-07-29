@@ -21,11 +21,13 @@ on:
       shards_opts:
         default: '--ignore-crystal-version'
         required: false
-
+      crystal_build_opts:
+        default: 'release=1'
+        required: false
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: crystallang/crystal:0.35.1-build
+    container: crystallang/crystal:0.35.1
     steps:
       - name: Workflow Arguments
         run: |
@@ -35,11 +37,19 @@ jobs:
           echo "shards_branch: ${{ github.event.inputs.shards_branch }}"
           echo "crystal_opts: ${{ github.event.inputs.crystal_opts }}"
           echo "shards_opts: ${{ github.event.inputs.shards_opts }}"
+      - name: Checkout test-ecosystem
+        uses: actions/checkout@v2
+        with:
+          path: test-ecosystem
       - name: Install Libraries
         run: |
-          # for https://github.com/actions/checkout/issues/209
           apt-get update
-          apt-get install -y curl jq
+
+          ./test-ecosystem/scripts/apt-install-tools.sh
+          ./test-ecosystem/scripts/apt-install-llvm-libclang.sh
+          echo "::set-env name=LLVM_CONFIG::/usr/bin/llvm-config-10"
+          # for https://github.com/actions/checkout/issues/209
+          apt-get install -y jq
       - name: Checkout Crystal
         uses: actions/checkout@v2
         with:
@@ -66,11 +76,14 @@ jobs:
       - name: Compute build cache keys
         run: |
           crystal env CRYSTAL_VERSION > ./build-cache-key
-          echo "release=1" >> ./build-cache-key
+          echo "LLVM_VERSION=$($LLVM_CONFIG --version)" >> ./build-cache-key
+          echo "crystal_build_opts=${{ github.event.inputs.crystal_build_opts }}" >> ./build-cache-key
           cd crystal
           echo "CRYSTAL_SHA1=${{ steps.get-crystal-sha.outputs.sha }}" >> ../build-cache-key
           cd ../shards
           echo "SHARDS_SHA1=${{ steps.get-shards-sha.outputs.sha }}" >> ../build-cache-key
+
+          cat ../build-cache-key
       - name: Build cache
         id: build-cache
         uses: actions/cache@v2
@@ -87,7 +100,7 @@ jobs:
         if: steps.build-cache.outputs.cache-hit != 'true'
         run: |
           cd crystal
-          make crystal release=1
+          make crystal ${{ github.event.inputs.crystal_build_opts }}
           bin/crystal --version
       - name: Build Shards
         if: steps.build-cache.outputs.cache-hit != 'true'
@@ -95,10 +108,6 @@ jobs:
           cd shards
           make bin/shards
           bin/shards --version
-      - name: Checkout test-ecosystem
-        uses: actions/checkout@v2
-        with:
-          path: test-ecosystem
       - name: Artifact (with permissions)
         uses: actions/cache@v2
         with:
@@ -148,34 +157,6 @@ jobs:
         image: redis:alpine
     needs: build
     steps:
-      - name: Install Libraries
-        run: |
-          export DEBIAN_FRONTEND=noninteractive
-
-          apt-get update
-
-          # crystal deps
-          apt-get install -y git build-essential pkg-config software-properties-common curl wget \
-            libpcre3-dev libevent-dev \
-            libxml2-dev libyaml-dev libssl-dev zlib1g-dev libsqlite3-dev libgmp-dev \
-            libedit-dev libreadline-dev gdb postgresql-client
-
-          # llvm libclang
-          wget https://apt.llvm.org/llvm.sh
-          chmod +x llvm.sh
-          ./llvm.sh 10
-          apt-get install -y libclang-10-dev
-          ln -sf /usr/bin/ld.lld-10 /usr/bin/ld.lld
-          export LLVM_CONFIG=/usr/bin/llvm-config-10
-      - name: Checkout Bats
-        uses: actions/checkout@v2
-        with:
-          repository: sstephenson/bats
-          path: bats
-      - name: Install Bats
-        run: |
-          cd bats
-          ./install.sh /usr/local
       - name: Artifact (with permissions)
         uses: actions/cache@v2
         with:
@@ -189,6 +170,14 @@ jobs:
       #   uses: actions/download-artifact@v2
       #   with:
       #     name: files
+      - name: Install Libraries
+        run: |
+          apt-get update
+          ./test-ecosystem/scripts/apt-install-tools.sh
+          ./test-ecosystem/scripts/apt-install-llvm-libclang.sh
+          echo "::set-env name=LLVM_CONFIG::/usr/bin/llvm-config-10"
+          ./test-ecosystem/scripts/apt-install-crystal-deps.sh
+          ./test-ecosystem/scripts/00-install-bats.sh
       - name: Initialize postgres
         uses: docker://postgres:9.6-alpine
         with:
