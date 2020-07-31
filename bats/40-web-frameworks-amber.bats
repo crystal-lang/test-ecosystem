@@ -1,16 +1,8 @@
 #!/usr/bin/env bats
 
-override_shard () {
-  rm -rf ./lib/$1 && ln -s $2 ./lib/$1
-}
-
 @test "amber granite specs" {
   pushd $REPOS_DIR/amberframework/granite
   shards
-  override_shard db $REPOS_DIR/crystal-lang/crystal-db
-  override_shard mysql $REPOS_DIR/crystal-lang/crystal-mysql
-  override_shard pg $REPOS_DIR/will/crystal-pg
-  override_shard sqlite3 $REPOS_DIR/crystal-lang/crystal-sqlite3
 
   export PG_DATABASE_URL="postgres://postgres:@$POSTGRES_HOST:5432/postgres"
   export MYSQL_DATABASE_URL="mysql://root@$MYSQL_HOST:3306/test_granite"
@@ -37,10 +29,6 @@ override_shard () {
   pushd $REPOS_DIR/amberframework/amber
 
   shards
-  override_shard db $REPOS_DIR/crystal-lang/crystal-db
-  override_shard mysql $REPOS_DIR/crystal-lang/crystal-mysql
-  override_shard pg $REPOS_DIR/will/crystal-pg
-  override_shard sqlite3 $REPOS_DIR/crystal-lang/crystal-sqlite3
 
   shards build
   ./bin/amber -v
@@ -71,11 +59,6 @@ override_shard () {
   ./amber/bin/amber new amber101
   pushd amber101
   shards
-  override_shard db $REPOS_DIR/crystal-lang/crystal-db
-  override_shard mysql $REPOS_DIR/crystal-lang/crystal-mysql
-  override_shard pg $REPOS_DIR/will/crystal-pg
-  override_shard sqlite3 $REPOS_DIR/crystal-lang/crystal-sqlite3
-  override_shard amber $REPOS_DIR/amberframework/amber
 
   shards build
 

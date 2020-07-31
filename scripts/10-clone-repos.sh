@@ -4,13 +4,33 @@ set -e
 rm -rf $REPOS_DIR
 mkdir -p $REPOS_DIR
 
+echo "dependencies:" > $REPOS_DIR/shard.override.yml
+
+# override_shard name fork [branch_or_vTag=master]
+function override_shard () {
+  local branch=${3:-master}
+
+  echo "  $1:" >> $REPOS_DIR/shard.override.yml
+  echo "    github: $2" >> $REPOS_DIR/shard.override.yml
+
+  case $branch in
+    v*)
+    echo "    version: ${branch:1}" >> $REPOS_DIR/shard.override.yml
+    ;;
+    *)
+    echo "    branch: $branch" >> $REPOS_DIR/shard.override.yml
+    ;;
+  esac
+}
+
 # gh_clone org/repo : will checkout master at $REPOS_DIR/org/repo
-# gh_clone org/repo branch : will checkout branch at $REPOS_DIR/org/repo
-# gh_clone org/repo branch fork: will checkout branch of github:fork at $REPOS_DIR/org/repo
+# gh_clone org/repo branch_or_vTag : will checkout branch at $REPOS_DIR/org/repo
+# gh_clone org/repo branch_or_vTag fork: will checkout branch of github:fork at $REPOS_DIR/org/repo
 function gh_clone {
   local repo_wk=${REPOS_DIR}/$1
   local upstream_gh_repo=${3:-$1}
   local shards_cache_dir=${SHARDS_CACHE_PATH}/github.com/$upstream_gh_repo.git
+  local shard_branch=${2:-master}
 
   # Reuse shards global cache.
   # It assumes that cache is clear before the whole testing per release
@@ -20,7 +40,12 @@ function gh_clone {
 
   # checkout from shards cache
   mkdir -p $repo_wk
-  git clone --branch ${2:-master} $shards_cache_dir $repo_wk
+  git clone --branch $shard_branch $shards_cache_dir $repo_wk
+
+  if [[ -f "$repo_wk/shard.yml" ]]; then
+    local shard_name=$(crystal eval "require \"yaml\"; puts YAML.parse(File.read(\"$repo_wk/shard.yml\"))[\"name\"]")
+    override_shard $shard_name $upstream_gh_repo $shard_branch
+  fi
 }
 
 gh_clone crystal-lang/crystal
@@ -40,9 +65,13 @@ gh_clone veelenga/ameba
 gh_clone kemalcr/kemal refactor/run_spec_exit_status bcardiff/kemal
 gh_clone luckyframework/lucky v0.23.0
 gh_clone luckyframework/lucky_cli v0.23.0
-gh_clone luckyframework/avram v0.16.0
+gh_clone luckyframework/avram v0.16.1
 gh_clone amberframework/amber
 gh_clone amberframework/granite
+
+override_shard dexter bcardiff/dexter fix/ensure-sync-log-dispatcher
+
+cat $REPOS_DIR/shard.override.yml
 
 # Copy samples directory to $REPOS_DIR/samples
 DIR=$(dirname $0)

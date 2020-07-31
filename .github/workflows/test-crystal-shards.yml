@@ -214,6 +214,7 @@ jobs:
           echo "::set-env name=CRYSTAL_CONFIG_LIBRARY_PATH::$(readlink -f ./crystal-lib)"
 
           echo "::set-env name=REPOS_DIR::$(readlink -f ./repos)"
+          echo "::set-env name=SHARDS_OVERRIDE::$(readlink -f ./repos)/shard.override.yml"
           echo "::set-env name=SHARDS_CACHE_PATH::$(readlink -f ./shards_cache)"
 
           echo "::add-path::$(readlink -f ./shards/bin)"

@@ -1,9 +1,5 @@
 #!/usr/bin/env bats
 
-override_shard () {
-  rm -rf ./lib/$1 && ln -s $2 ./lib/$1
-}
-
 @test "kemal specs" {
   pushd $REPOS_DIR/kemalcr/kemal
   shards

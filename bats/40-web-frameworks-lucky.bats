@@ -1,15 +1,8 @@
 #!/usr/bin/env bats
 
-override_shard () {
-  rm -rf ./lib/$1 && ln -s $2 ./lib/$1
-}
-
 @test "lucky specs" {
   pushd $REPOS_DIR/luckyframework/lucky
   shards
-  override_shard db $REPOS_DIR/crystal-lang/crystal-db
-  override_shard pg $REPOS_DIR/will/crystal-pg
-  override_shard lucky_cli $REPOS_DIR/luckyframework/lucky_cli
 
   crystal spec # due to #{(distance / 30).round.to_i} months ...
 
@@ -28,9 +21,6 @@ override_shard () {
 @test "lucky avram specs" {
   pushd $REPOS_DIR/luckyframework/avram
   shards
-  override_shard db $REPOS_DIR/crystal-lang/crystal-db
-  override_shard pg $REPOS_DIR/will/crystal-pg
-  override_shard lucky_cli $REPOS_DIR/luckyframework/lucky_cli
 
   ln -s $REPOS_DIR/luckyframework/lucky_cli/lucky ./lucky
   export DATABASE_URL="postgres://postgres@$POSTGRES_HOST:5432/lucky_record_test"
@@ -60,7 +50,6 @@ override_shard () {
   pushd lucky101
 
   shards
-  rm -rf ./lib/lucky && ln -s $REPOS_DIR/luckyframework/lucky ./lib/lucky
 
   shards build
 
