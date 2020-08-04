@@ -69,7 +69,7 @@ gh_clone luckyframework/avram v0.16.1
 gh_clone amberframework/amber
 gh_clone amberframework/granite
 
-override_shard dexter bcardiff/dexter fix/ensure-sync-log-dispatcher
+override_shard dexter luckyframework/dexter
 
 cat $REPOS_DIR/shard.override.yml
 
