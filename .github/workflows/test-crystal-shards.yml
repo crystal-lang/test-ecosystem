@@ -52,7 +52,7 @@ jobs:
 
           ./test-ecosystem/scripts/apt-install-tools.sh
           ./test-ecosystem/scripts/apt-install-llvm-libclang.sh
-          echo "::set-env name=LLVM_CONFIG::/usr/bin/llvm-config-10"
+          echo "LLVM_CONFIG=/usr/bin/llvm-config-10" >> $GITHUB_ENV
           ./test-ecosystem/scripts/apt-install-crystal-deps.sh
           # for https://github.com/actions/checkout/issues/209
           apt-get install -y jq
@@ -61,7 +61,7 @@ jobs:
           curl -fsSL ${{ github.event.inputs.previous_crystal_release }} -o /tmp/crystal.tar.gz
           mkdir /tmp/crystal
           tar -xz -C /tmp/crystal --strip-component=1 -f /tmp/crystal.tar.gz
-          echo "::add-path::/tmp/crystal/bin/"
+          echo "/tmp/crystal/bin/" >> $GITHUB_PATH
       - name: Checkout Crystal
         uses: actions/checkout@v2
         with:
@@ -192,7 +192,7 @@ jobs:
           apt-get update
           ./test-ecosystem/scripts/apt-install-tools.sh
           ./test-ecosystem/scripts/apt-install-llvm-libclang.sh
-          echo "::set-env name=LLVM_CONFIG::/usr/bin/llvm-config-10"
+          echo "LLVM_CONFIG=/usr/bin/llvm-config-10" >> $GITHUB_ENV
           ./test-ecosystem/scripts/apt-install-crystal-deps.sh
           ./test-ecosystem/scripts/00-install-bats.sh
       - name: Initialize postgres
@@ -209,20 +209,20 @@ jobs:
           git config --global user.name "Your Name"
       - name: Setup env vars
         run: |
-          echo "::set-env name=SHARDS_OPTS::${{ github.event.inputs.shards_opts }}"
-          echo "::set-env name=CRYSTAL_OPTS::${{ github.event.inputs.crystal_opts }}"
-          echo "::set-env name=CRYSTAL_CONFIG_LIBRARY_PATH::$(readlink -f ./crystal-lib)"
+          echo "SHARDS_OPTS=${{ github.event.inputs.shards_opts }}" >> $GITHUB_ENV
+          echo "CRYSTAL_OPTS=${{ github.event.inputs.crystal_opts }}" >> $GITHUB_ENV
+          echo "CRYSTAL_CONFIG_LIBRARY_PATH=$(readlink -f ./crystal-lib)" >> $GITHUB_ENV
 
-          echo "::set-env name=REPOS_DIR::$(readlink -f ./repos)"
-          echo "::set-env name=SHARDS_OVERRIDE::$(readlink -f ./repos)/shard.override.yml"
-          echo "::set-env name=SHARDS_CACHE_PATH::$(readlink -f ./shards_cache)"
+          echo "REPOS_DIR=$(readlink -f ./repos)" >> $GITHUB_ENV
+          echo "SHARDS_OVERRIDE=$(readlink -f ./repos)/shard.override.yml" >> $GITHUB_ENV
+          echo "SHARDS_CACHE_PATH=$(readlink -f ./shards_cache)" >> $GITHUB_ENV
 
-          echo "::add-path::$(readlink -f ./shards/bin)"
-          echo "::add-path::$(readlink -f ./crystal/bin)"
+          echo "$(readlink -f ./shards/bin)" >> $GITHUB_PATH
+          echo "$(readlink -f ./crystal/bin)" >> $GITHUB_PATH
 
-          echo "::set-env name=POSTGRES_HOST::postgres"
-          echo "::set-env name=MYSQL_HOST::mysql"
-          echo "::set-env name=REDIS_HOST::redis"
+          echo "POSTGRES_HOST=postgres" >> $GITHUB_ENV
+          echo "MYSQL_HOST=mysql" >> $GITHUB_ENV
+          echo "REDIS_HOST=redis" >> $GITHUB_ENV
       - name: Crystal & Shards information
         run: |
           which crystal
