@@ -51,26 +51,26 @@ function gh_clone {
 gh_clone crystal-lang/crystal
 gh_clone crystal-lang/shards
 
-gh_clone crystal-lang/crystal_lib
+gh_clone crystal-lang/crystal_lib crystal/0.36.0
 
 gh_clone crystal-lang/crystal-db
 gh_clone crystal-lang/crystal-mysql
 gh_clone crystal-lang/crystal-sqlite3
 gh_clone will/crystal-pg
 
-gh_clone manastech/webmock.cr crystal/1.0.0
+gh_clone manastech/webmock.cr crystal/0.36.0
 
 gh_clone veelenga/ameba
 
 gh_clone kemalcr/kemal
-gh_clone luckyframework/lucky fix-deprecation bcardiff/lucky
+gh_clone luckyframework/lucky crystal/0.36.0 bcardiff/lucky
 gh_clone luckyframework/lucky_cli
 gh_clone luckyframework/avram
-gh_clone amberframework/amber fix-deprecation bcardiff/amber
-gh_clone amberframework/granite crystal/1.0.0-pre1 bcardiff/granite
+gh_clone amberframework/amber crystal/0.36.0 bcardiff/amber
+gh_clone amberframework/granite crystal/0.36.0 bcardiff/granite
 gh_clone TechMagister/liquid.cr
 
-override_shard dexter luckyframework/dexter
+override_shard dexter bcardiff/dexter crystal/0.36.0
 override_shard exception_page bcardiff/exception_page fix-deprecation
 
 cat $REPOS_DIR/shard.override.yml
