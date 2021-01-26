@@ -60,17 +60,17 @@ gh_clone will/crystal-pg
 
 gh_clone manastech/webmock.cr crystal/0.36.0
 
-gh_clone veelenga/ameba
+gh_clone crystal-ameba/ameba master
 
 gh_clone kemalcr/kemal
-gh_clone luckyframework/lucky crystal/0.36.0 bcardiff/lucky
+gh_clone luckyframework/lucky
 gh_clone luckyframework/lucky_cli
 gh_clone luckyframework/avram
 gh_clone amberframework/amber crystal/0.36.0 bcardiff/amber
 gh_clone amberframework/granite crystal/0.36.0 bcardiff/granite
 gh_clone TechMagister/liquid.cr
 
-override_shard dexter bcardiff/dexter crystal/0.36.0
+override_shard dexter luckyframework/dexter
 override_shard exception_page bcardiff/exception_page fix-deprecation
 
 cat $REPOS_DIR/shard.override.yml

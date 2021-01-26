@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
 @test "ameba specs" {
-  pushd $REPOS_DIR/veelenga/ameba
+  pushd $REPOS_DIR/crystal-ameba/ameba
   shards
 
   shards build
