@@ -72,6 +72,7 @@ gh_clone TechMagister/liquid.cr
 
 override_shard dexter luckyframework/dexter
 override_shard exception_page bcardiff/exception_page fix-deprecation
+override_shard openssl_ext bcardiff/openssl_ext avoid-return
 
 cat $REPOS_DIR/shard.override.yml
 
