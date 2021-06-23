@@ -63,17 +63,12 @@ gh_clone manastech/webmock.cr
 gh_clone crystal-ameba/ameba master
 
 gh_clone kemalcr/kemal
-gh_clone luckyframework/lucky keep-insecure-cookies bcardiff/lucky
+gh_clone luckyframework/lucky
 gh_clone luckyframework/lucky_cli
 gh_clone luckyframework/avram
 gh_clone amberframework/amber
-gh_clone amberframework/granite crystal/0.36.0 bcardiff/granite
+gh_clone amberframework/granite
 gh_clone TechMagister/liquid.cr
-
-override_shard dexter luckyframework/dexter
-override_shard exception_page bcardiff/exception_page fix-deprecation
-override_shard openssl_ext bcardiff/openssl_ext avoid-return
-override_shard markd bcardiff/markd avoid-surrogate-halves
 
 cat $REPOS_DIR/shard.override.yml
 
