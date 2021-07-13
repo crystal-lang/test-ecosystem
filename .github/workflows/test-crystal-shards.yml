@@ -103,6 +103,7 @@ jobs:
           path: |
             ./crystal/.build/crystal
             ./shards/bin/shards
+            ./crystal-lib
           key: ${{ runner.os }}-build-${{ hashFiles('./build-cache-key') }}
       - name: Build Crystal Deps
         run: |
