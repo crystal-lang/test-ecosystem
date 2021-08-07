@@ -1,9 +1,7 @@
-#!/bin/sh
+#! /usr/bin/env bash
 set -e
 
-BASEDIR=$(dirname $0)
-export SHARDS_CACHE_PATH=$BASEDIR/shards_cache
-export REPOS_DIR=/tmp/repos
-export SHARDS_OVERRIDE=$REPOS_DIR/shard.override.yml
+source variables.sh
+
 ./scripts/10-clone-repos.sh
 ./scripts/20-run-bats.sh
