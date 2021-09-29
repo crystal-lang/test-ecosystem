@@ -157,6 +157,8 @@ jobs:
           - 40-web-frameworks-lucky.bats
           - 50-crystal.bats
           - 60-crystal-progress.bats
+          - 70-implementations.bats
+          - 80-tutorials.bats
       fail-fast: false
     name: test ${{ matrix.script }}
     runs-on: ubuntu-latest
