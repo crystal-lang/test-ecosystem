@@ -73,6 +73,8 @@ gh_clone TechMagister/liquid.cr
 gh_clone "straight-shoota/crinja"
 gh_clone "mint-lang/mint"
 
+gh_clone "crystal-community/crystal-patterns"
+
 cat $REPOS_DIR/shard.override.yml
 
 # Copy samples directory to $REPOS_DIR/samples
