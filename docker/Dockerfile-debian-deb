@@ -2,15 +2,15 @@ ARG debian_docker_image
 FROM ${debian_docker_image}
 
 RUN apt-get update \
-    && apt-get install -y git build-essential tzdata pkg-config software-properties-common apt-transport-https ca-certificates wget curl \
-    libpcre3-dev libevent-dev \
-    libxml2-dev libyaml-dev libssl-dev zlib1g-dev libsqlite3-dev libgmp-dev \
-    libedit-dev libreadline-dev gdb postgresql-client
+  && apt-get install -y git build-essential tzdata pkg-config software-properties-common apt-transport-https ca-certificates wget curl \
+  libpcre3-dev libevent-dev \
+  libxml2-dev libyaml-dev libssl-dev zlib1g-dev libsqlite3-dev libgmp-dev \
+  libedit-dev libreadline-dev gdb postgresql-client mercurial
 
 RUN add-apt-repository "deb http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb_release -cs)-4.0 main" \
- && curl -sSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
- && apt-get update \
- && apt-get install -y llvm-4.0 libclang-4.0-dev
+  && curl -sSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
+  && apt-get update \
+  && apt-get install -y llvm-4.0 libclang-4.0-dev
 
 # ARG llvm_version=10
 # RUN wget https://apt.llvm.org/llvm.sh \
@@ -23,7 +23,7 @@ RUN add-apt-repository "deb http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolcha
 ARG crystal_deb
 COPY ${crystal_deb} /tmp/crystal.deb
 RUN dpkg --force-bad-version -i /tmp/crystal.deb \
- && apt-get install -f
+  && apt-get install -f
 # Only needed to build crystal without installing a separate libgc
 ARG library_path=/usr/lib/crystal/lib/
 ENV LIBRARY_PATH=${library_path}

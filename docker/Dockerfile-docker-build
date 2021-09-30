@@ -2,8 +2,8 @@ ARG docker_image
 FROM ${docker_image}
 
 RUN apt-get update \
- && apt-get install -y libsqlite3-dev postgresql-client libclang-4.0-dev \
- && ln -s libclang-4.0.so.1 /usr/lib/x86_64-linux-gnu/libclang.so
+  && apt-get install -y libsqlite3-dev postgresql-client libclang-4.0-dev mercurial \
+  && ln -s libclang-4.0.so.1 /usr/lib/x86_64-linux-gnu/libclang.so
 
 ENV REPOS_DIR /repos
 ADD ./scripts /scripts
