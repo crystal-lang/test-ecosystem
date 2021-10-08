@@ -214,7 +214,7 @@ jobs:
         run: |
           echo "SHARDS_OPTS=${{ github.event.inputs.shards_opts }}" >> $GITHUB_ENV
           echo "CRYSTAL_OPTS=${{ github.event.inputs.crystal_opts }}" >> $GITHUB_ENV
-          echo "CRYSTAL_CONFIG_LIBRARY_PATH=$(readlink -f ./crystal-lib)" >> $GITHUB_ENV
+          echo "CRYSTAL_LIBRARY_PATH=$(readlink -f ./crystal-lib)" >> $GITHUB_ENV
 
           echo "REPOS_DIR=$(readlink -f ./repos)" >> $GITHUB_ENV
           echo "SHARDS_OVERRIDE=$(readlink -f ./repos)/shard.override.yml" >> $GITHUB_ENV
