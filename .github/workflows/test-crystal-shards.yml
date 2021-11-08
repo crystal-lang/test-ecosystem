@@ -113,7 +113,7 @@ jobs:
         if: steps.build-cache.outputs.cache-hit != 'true'
         run: |
           mkdir crystal-lib
-          cp $(/tmp/crystal/bin/crystal env CRYSTAL_LIBRARY_PATH)/* ./crystal-lib/
+          cp -r $(/tmp/crystal/bin/crystal env CRYSTAL_LIBRARY_PATH)/* ./crystal-lib/
           cd crystal
           make crystal CRYSTAL_CONFIG_LIBRARY_PATH=$(readlink -f ../crystal-lib) ${{ github.event.inputs.crystal_build_opts }}
           bin/crystal --version
