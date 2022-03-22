@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eu
 
 rm -rf $REPOS_DIR
 mkdir -p $REPOS_DIR
@@ -8,7 +8,7 @@ echo "dependencies:" > $REPOS_DIR/shard.override.yml
 
 # override_shard name fork [branch_or_vTag=master]
 function override_shard () {
-  local branch=${3:-master}
+  local branch=${3:-}
 
   echo "  $1:" >> $REPOS_DIR/shard.override.yml
   echo "    github: $2" >> $REPOS_DIR/shard.override.yml
@@ -16,6 +16,9 @@ function override_shard () {
   case $branch in
     v*)
     echo "    version: ${branch:1}" >> $REPOS_DIR/shard.override.yml
+    ;;
+    "")
+    # HEAD is default
     ;;
     *)
     echo "    branch: $branch" >> $REPOS_DIR/shard.override.yml
@@ -30,7 +33,10 @@ function gh_clone {
   local repo_wk=${REPOS_DIR}/$1
   local upstream_gh_repo=${3:-$1}
   local shards_cache_dir=${SHARDS_CACHE_PATH}/github.com/$upstream_gh_repo.git
-  local shard_branch=${2:-master}
+  local shard_branch=${2:-}
+  if [ ! -z $shard_branch ]; then
+    local branch_option="--branch $shard_branch"
+  fi
 
   # Reuse shards global cache.
   # It assumes that cache is clear before the whole testing per release
@@ -40,7 +46,7 @@ function gh_clone {
 
   # checkout from shards cache
   mkdir -p $repo_wk
-  git clone --branch $shard_branch $shards_cache_dir $repo_wk
+  git clone ${branch_option:-} $shards_cache_dir $repo_wk
 
   if [[ -f "$repo_wk/shard.yml" ]]; then
     local shard_name=$(crystal eval "require \"yaml\"; puts YAML.parse(File.read(\"$repo_wk/shard.yml\"))[\"name\"]")
