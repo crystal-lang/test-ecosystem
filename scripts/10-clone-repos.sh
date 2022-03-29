@@ -74,6 +74,8 @@ gh_clone kemalcr/kemal
 gh_clone luckyframework/lucky
 gh_clone luckyframework/lucky_cli
 gh_clone luckyframework/avram
+gh_clone amberframework/amber
+gh_clone amberframework/granite
 gh_clone TechMagister/liquid.cr
 
 gh_clone "straight-shoota/crinja"
