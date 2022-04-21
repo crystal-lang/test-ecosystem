@@ -152,7 +152,7 @@ jobs:
           - 10-crystal-db.bats
           - 20-crystal-ext.bats
           - 30-tools.bats
-          - 40-web-frameworks-amber.bats
+          # - 40-web-frameworks-amber.bats
           - 40-web-frameworks-kemal.bats
           - 40-web-frameworks-lucky.bats
           - 50-crystal.bats
