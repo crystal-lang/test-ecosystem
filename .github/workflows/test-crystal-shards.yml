@@ -52,7 +52,7 @@ jobs:
 
           ./test-ecosystem/scripts/apt-install-tools.sh
           ./test-ecosystem/scripts/apt-install-llvm-libclang.sh
-          echo "LLVM_CONFIG=/usr/bin/llvm-config-10" >> $GITHUB_ENV
+          # echo "LLVM_CONFIG=/usr/bin/llvm-config-10" >> $GITHUB_ENV
           ./test-ecosystem/scripts/apt-install-crystal-deps.sh
           # for https://github.com/actions/checkout/issues/209
           apt-get install -y jq
@@ -195,7 +195,7 @@ jobs:
           apt-get update
           ./test-ecosystem/scripts/apt-install-tools.sh
           ./test-ecosystem/scripts/apt-install-llvm-libclang.sh
-          echo "LLVM_CONFIG=/usr/bin/llvm-config-10" >> $GITHUB_ENV
+          # echo "LLVM_CONFIG=/usr/bin/llvm-config-10" >> $GITHUB_ENV
           ./test-ecosystem/scripts/apt-install-crystal-deps.sh
           ./test-ecosystem/scripts/00-install-bats.sh
       - name: Initialize postgres
