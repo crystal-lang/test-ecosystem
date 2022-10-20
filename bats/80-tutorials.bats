@@ -5,7 +5,7 @@
   
   for src in creational/*.cr structural/*.cr behavioral/*.cr
   do
-    (set -x; crystal run $src)
+    crystal run $src
   done
 
   popd
