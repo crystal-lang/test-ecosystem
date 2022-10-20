@@ -54,8 +54,6 @@ function gh_clone {
   fi
 }
 
-override_shard db crystal-lang/crystal-db v0.10.1
-
 gh_clone crystal-lang/crystal
 gh_clone crystal-lang/shards
 
