@@ -5,6 +5,7 @@
 
   local OLD_SHARDS_OPTS=$SHARDS_OPTS
   local OLD_SHARDS_OVERRIDE=$SHARDS_OVERRIDE
+  export USER=shardsuser # required for fossil
   make
   unset SHARDS_OPTS
   unset SHARDS_OVERRIDE
