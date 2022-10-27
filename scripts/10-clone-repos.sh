@@ -54,7 +54,9 @@ function gh_clone {
   fi
 }
 
-override_shard db crystal-lang/crystal-db v0.10.1
+# Override due to conflict in Lucky dependencies:
+# Error shard name (cry) has ambiguous sources: 'git: https://github.com/luckyframework/cry.git' and 'git: https://github.com/paulcsmith/cry.git'.
+override_shard cry luckyframework/cry
 
 gh_clone crystal-lang/crystal
 gh_clone crystal-lang/shards
