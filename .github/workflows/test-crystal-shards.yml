@@ -43,7 +43,7 @@ jobs:
           echo "crystal_build_opts: ${{ github.event.inputs.crystal_build_opts }}"
           echo "previous_crystal_release: ${{ github.event.inputs.previous_crystal_release }}"
       - name: Checkout test-ecosystem
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: test-ecosystem
       - name: Install Libraries
@@ -63,7 +63,7 @@ jobs:
           tar -xz -C /tmp/crystal --strip-component=1 -f /tmp/crystal.tar.gz
           echo "/tmp/crystal/bin/" >> $GITHUB_PATH
       - name: Checkout Crystal
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: ${{ github.event.inputs.crystal_repo }}
           ref: ${{ github.event.inputs.crystal_branch }}
@@ -75,7 +75,7 @@ jobs:
         run: |
           echo ::set-output name=sha::$( curl -u "u:${{ secrets.MY_GITHUB_PAT }}" https://api.github.com/repos/${{ github.event.inputs.crystal_repo }}/git/ref/heads/${{ github.event.inputs.crystal_branch }} | jq .object.sha | tr -d '"' )
       - name: Checkout Shards
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: ${{ github.event.inputs.shards_repo }}
           ref: ${{ github.event.inputs.shards_branch }}
@@ -98,7 +98,7 @@ jobs:
           cat ../build-cache-key
       - name: Build cache
         id: build-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ./crystal/.build/crystal
@@ -124,7 +124,7 @@ jobs:
           make bin/shards CRYSTAL=../crystal/bin/crystal
           bin/shards --version
       - name: Artifact (with permissions)
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ./test-ecosystem
@@ -165,7 +165,7 @@ jobs:
     container: ubuntu:latest
     services:
       postgres:
-        image: postgres:9.6-alpine
+        image: postgres:15.1-alpine
         env:
           POSTGRES_HOST_AUTH_METHOD: trust
       mysql:
@@ -177,7 +177,7 @@ jobs:
     needs: build
     steps:
       - name: Artifact (with permissions)
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ./test-ecosystem
@@ -199,7 +199,7 @@ jobs:
           ./test-ecosystem/scripts/apt-install-crystal-deps.sh
           ./test-ecosystem/scripts/00-install-bats.sh
       - name: Initialize postgres
-        uses: docker://postgres:9.6-alpine
+        uses: docker://postgres:15.1-alpine
         with:
           args: /bin/sh -c "psql -U postgres -h postgres -f ./test-ecosystem/scripts/pg-init.sql"
       - name: Initialize mysql
