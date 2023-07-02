@@ -12,8 +12,7 @@ function setup() {
 
   if [[ "$(crystal env CRYSTAL_VERSION)" =~ ^1.9. ]]; then
     if git show-ref --quiet refs/remotes/origin/update-to-work-with-crystal-nightly; then
-      git status
-      git merge --no-commit --squash refs/remotes/origin/update-to-work-with-crystal-nightly
+      git diff ...refs/remotes/origin/update-to-work-with-crystal-nightly | git apply
     fi
   fi
 
