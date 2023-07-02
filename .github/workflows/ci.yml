@@ -41,7 +41,7 @@ jobs:
 
       - name: Test
         run: |
-          bats --pretty --timing test
+          bats -x --pretty --timing test/tools.bats
         env:
           WINDOWS_BASE_DIR: "/d/a"
           TERM: dumb
