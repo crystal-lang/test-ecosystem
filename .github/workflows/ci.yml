@@ -5,7 +5,10 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
-      crystal_version:
+      crystal:
+        type: string
+        default: nightly
+      shards:
         type: string
         default: nightly
 
@@ -28,7 +31,8 @@ jobs:
 
       - uses: crystal-lang/install-crystal@v1
         with:
-          crystal: ${{ github.event.inputs.crystal_branch || 'latest' }}
+          crystal: ${{ github.event.inputs.crystal || 'nightly' }}
+          shards: ${{ github.event.inputs.shards || 'nightly' }}
 
       - name: Setup BATS
         uses: mig4/setup-bats@v1
