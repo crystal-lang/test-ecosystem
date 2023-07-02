@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      crystal_version:
+        type: string
+        default: nightly
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event.inputs }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+          os: [ubuntu-22.04, windows-2022, macos-13]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: ${{ github.event.inputs.crystal_branch || 'latest' }}
+
+      - name: Setup BATS
+        uses: mig4/setup-bats@v1
+        with:
+          bats-version: 1.9.0
+
+      - name: Install dependencies
+        run: |
+          if [ "$RUNNER_OS" == "macOS" ]; then
+            brew install pkg-config
+          fi
+
+      - name: Test
+        run: |
+          bats --pretty --timing test
+        env:
+          WINDOWS_BASE_DIR: "/d/a"
+          TERM: dumb
