@@ -11,7 +11,9 @@ function setup() {
   shard_checkout https://github.com/crystal-ameba/ameba
 
   if [[ "$(crystal env CRYSTAL_VERSION)" =~ ^1.9. ]]; then
-    git merge origin/update-to-work-with-crystal-nightly || true
+    if git show-ref --quiet refs/remotes/origin/update-to-work-with-crystal-nightly; then
+      git merge --no-commit --squash refs/remotes/origin/update-to-work-with-crystal-nightly
+    fi
   fi
 
   crystal_spec

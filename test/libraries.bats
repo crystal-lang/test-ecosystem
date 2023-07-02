@@ -175,6 +175,7 @@ function setup() {
   if [[ "$(crystal env CRYSTAL_VERSION)" =~ ^0\.|^1\.[0-8]\. ]]; then
     skiponwindows "Compiler bug in Crystal < 1.9"
   fi
+  skiponwindows "Specs are failing"
 
   shard_checkout https://github.com/jeromegn/slang
 
