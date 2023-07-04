@@ -10,5 +10,11 @@ function setup() {
   skiponwindows "Timeout"
   shard_checkout https://github.com/crystal-ameba/ameba
 
+  if [[ "$(crystal env CRYSTAL_VERSION)" =~ ^1.9. ]]; then
+    if git show-ref --quiet refs/remotes/origin/update-to-work-with-crystal-nightly; then
+      git diff ...refs/remotes/origin/update-to-work-with-crystal-nightly | git apply
+    fi
+  fi
+
   crystal_spec
 }
