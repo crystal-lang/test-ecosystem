@@ -18,7 +18,6 @@ function setup() {
 
 # bats test_tags=openssl
 @test "crystal-loot/exception_page" {
-  skip "Specs are failing (https://github.com/crystal-loot/exception_page/issues/39)"
   skiponwindows "Does not build"
   shard_checkout https://github.com/crystal-loot/exception_page
 
@@ -128,18 +127,18 @@ function setup() {
 }
 
 @test "stumpycr/stumpy_png" {
-  skip "Incompatible with modern Crystal"
   skiponwindows "Specs are failing"
   shard_checkout https://github.com/stumpycr/stumpy_png
 
-  crystal_spec
+  minitest
 }
 
 @test "luckyframework/shell-table.cr" {
-  skip "Specs are failing"
   shard_checkout https://github.com/luckyframework/shell-table.cr
 
-  crystal_spec
+  # has no spec suite
+  crystal run examples/simple.cr
+  crystal run examples/dsl.cr
 }
 
 @test "phoffer/inflector.cr" {
@@ -215,8 +214,12 @@ function setup() {
 }
 
 @test "maiha/pretty.cr" {
-  skip "Specs are failing"
+  #skip "Specs are failing"
   shard_checkout https://github.com/maiha/pretty.cr
+
+  # patch failing specs (they are broken on a dumb terminal)
+  sed -i spec/json_spec.cr -e 's/it "(string, color: true)"/pending "(string, color: true)"/' || true
+  sed -i spec/lines_spec.cr -e 's/it "supports ansi colors"/pending "supports ansi colors"/' || true
 
   crystal_spec
 }
