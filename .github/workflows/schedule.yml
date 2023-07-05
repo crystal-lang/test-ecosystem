@@ -1,0 +1,17 @@
+name: Schedule
+
+on:
+  push:
+  schedule:
+    - cron: "17 4 * * 2" # 04:17 on Tuesday.
+
+jobs:
+  crystal_latest:
+    uses: ./.github/workflows/ci.yml
+    with:
+      crystal: latest
+
+  crystal_nightly:
+    uses: ./.github/workflows/ci.yml
+    with:
+      crystal: nightly
