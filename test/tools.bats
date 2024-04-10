@@ -17,4 +17,6 @@ function setup() {
   fi
 
   crystal_spec
+
+  crystal_format
 }

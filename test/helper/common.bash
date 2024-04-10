@@ -38,3 +38,7 @@ function shard_checkout() {
 function crystal_spec() {
   $CRYSTAL spec --junit_output ".junit/interpreter-std_spec.$BATS_TEST_NAME.xml"
 }
+
+function crystal_format() {
+  $CRYSTAL tool format
+}
