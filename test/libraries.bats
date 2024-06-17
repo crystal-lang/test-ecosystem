@@ -41,8 +41,6 @@ function setup() {
   shard_checkout https://github.com/ysbaddaden/pool
 
   crystal_spec
-
-  crystal_format
 }
 
 @test "luckyframework/habitat" {
@@ -74,8 +72,6 @@ function setup() {
   shard_checkout https://github.com/schovi/baked_file_system
 
   crystal_spec
-
-  crystal_format
 }
 
 @test "jeromegn/kilt" {
@@ -83,16 +79,12 @@ function setup() {
   shard_checkout https://github.com/jeromegn/kilt
 
   crystal_spec
-
-  crystal_format
 }
 
 @test "sumpycr/stumpy_core" {
   shard_checkout https://github.com/stumpycr/stumpy_core
 
   crystal_spec
-
-  crystal_format
 }
 
 @test "luckyframework/lucky_task" {
@@ -196,8 +188,6 @@ function setup() {
 
   $CRYSTAL src/ext/build_ext.cr
   crystal_spec
-
-  crystal_format
 }
 
 @test "icyleaf/halite" {
@@ -213,8 +203,6 @@ function setup() {
   shard_checkout https://github.com/jwaldrip/admiral.cr
 
   crystal_spec
-
-  crystal_format
 }
 
 @test "jeromegn/slang" {
@@ -226,8 +214,6 @@ function setup() {
   shard_checkout https://github.com/jeromegn/slang
 
   crystal_spec
-
-  crystal_format
 }
 
 @test "vladfaust/time_format.cr" {
@@ -268,8 +254,6 @@ function setup() {
   shard_checkout https://github.com/gdotdesign/cr-dotenv
 
   crystal_spec
-
-  crystal_format
 }
 
 @test "maiha/pretty.cr" {
