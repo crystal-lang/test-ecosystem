@@ -40,5 +40,5 @@ function crystal_spec() {
 }
 
 function crystal_format() {
-  $CRYSTAL tool format
+  $CRYSTAL tool format --check
 }
