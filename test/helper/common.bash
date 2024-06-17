@@ -40,7 +40,13 @@ function crystal_spec() {
 }
 
 function crystal_format() {
-  $CRYSTAL tool format
-  git diff && git checkout -- .
-  $CRYSTAL tool format --check
+  $CRYSTAL tool format --check || {
+    retval=$?
+
+    # Print formatter diff
+    $CRYSTAL tool format
+    git diff && git checkout -- .
+
+    return $retval
+  }
 }
