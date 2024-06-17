@@ -21,7 +21,7 @@ function git_checkout() {
     git pull origin HEAD
     git submodule update --init
   else
-    git -c core.autocrlf=false clone --recursive "$URL" "$TARGET"
+    git --recursive "$URL" "$TARGET"
     cd "$TARGET" || exit 1
   fi
 }

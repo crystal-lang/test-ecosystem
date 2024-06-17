@@ -39,6 +39,9 @@ jobs:
         with:
           bats-version: 1.9.0
 
+      - name: Configure git to not checkout CRLF
+        run: git config --add core.autocrlf false
+
       - name: Test
         run: |
           bats --pretty --timing test
