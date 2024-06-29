@@ -16,8 +16,8 @@ function test_component() {
   ./scripts/test.sh "$1"
 }
 
-@test "config" {
-  test_component "config"
+@test "clock" {
+  test_component "clock"
 }
 @test "console" {
   test_component "console"
