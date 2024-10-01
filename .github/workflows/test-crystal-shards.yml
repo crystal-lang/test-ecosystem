@@ -165,7 +165,7 @@ jobs:
     container: ubuntu:latest
     services:
       postgres:
-        image: postgres:16.4-alpine
+        image: postgres:17.0-alpine
         env:
           POSTGRES_HOST_AUTH_METHOD: trust
       mysql:
@@ -199,7 +199,7 @@ jobs:
           ./test-ecosystem/scripts/apt-install-crystal-deps.sh
           ./test-ecosystem/scripts/00-install-bats.sh
       - name: Initialize postgres
-        uses: docker://postgres:16.4-alpine
+        uses: docker://postgres:17.0-alpine
         with:
           args: /bin/sh -c "psql -U postgres -h postgres -f ./test-ecosystem/scripts/pg-init.sql"
       - name: Initialize mysql
