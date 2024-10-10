@@ -37,6 +37,9 @@ function test_component() {
 @test "image_size" {
   test_component "image_size"
 }
+@test "mercure" {
+  test_component "mercure"
+}
 @test "negotiation" {
   test_component "negotiation"
 }
