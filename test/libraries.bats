@@ -14,6 +14,8 @@ function setup() {
   shard_checkout https://github.com/Sija/backtracer.cr
 
   crystal_spec
+
+  crystal_format
 }
 
 # bats test_tags=openssl
@@ -23,12 +25,16 @@ function setup() {
   shard_checkout https://github.com/crystal-loot/exception_page
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "luislavena/radix" {
   shard_checkout https://github.com/luislavena/radix
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "ysbaddaden/pool" {
@@ -41,18 +47,24 @@ function setup() {
   shard_checkout https://github.com/luckyframework/habitat
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "luckyframework/wordsmith" {
   shard_checkout https://github.com/luckyframework/wordsmith
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "crystal-community/future.cr" {
   shard_checkout https://github.com/crystal-community/future.cr
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "schovi/baked_file_system" {
@@ -79,12 +91,16 @@ function setup() {
   shard_checkout https://github.com/luckyframework/lucky_task
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "spider-gazelle/bindata" {
   shard_checkout https://github.com/spider-gazelle/bindata
 
   crystal_spec
+
+  crystal_format
 }
 
 # bats test_tags=openssl
@@ -92,6 +108,8 @@ function setup() {
   shard_checkout https://github.com/kemalcr/kemal-session
 
   crystal_spec
+
+  crystal_format
 }
 
 # bats test_tags=openssl
@@ -104,6 +122,8 @@ function setup() {
   shard_checkout https://github.com/kemalcr/kemal
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "luckyframework/teeplate" {
@@ -112,12 +132,16 @@ function setup() {
   shard_checkout https://github.com/luckyframework/teeplate
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "icyleaf/markd" {
   shard_checkout https://github.com/icyleaf/markd
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "crystal-lang/json_mapping.cr" {
@@ -125,6 +149,8 @@ function setup() {
   shard_checkout https://github.com/crystal-lang/json_mapping.cr
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "stumpycr/stumpy_png" {
@@ -133,6 +159,8 @@ function setup() {
   shard_checkout https://github.com/stumpycr/stumpy_png
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "luckyframework/shell-table.cr" {
@@ -140,6 +168,8 @@ function setup() {
   shard_checkout https://github.com/luckyframework/shell-table.cr
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "phoffer/inflector.cr" {
@@ -147,6 +177,8 @@ function setup() {
   shard_checkout https://github.com/phoffer/inflector.cr
 
   crystal_spec
+
+  crystal_format
 }
 
 # bats test_tags=cmake
@@ -163,6 +195,8 @@ function setup() {
   shard_checkout https://github.com/icyleaf/halite
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "jwaldrip/admiral.cr" {
@@ -186,6 +220,8 @@ function setup() {
   shard_checkout https://github.com/vladfaust/time_format.cr
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "mamantoha/http_proxy" {
@@ -193,12 +229,16 @@ function setup() {
   shard_checkout https://github.com/mamantoha/http_proxy
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "crystal-community/msgpack-crystal" {
   shard_checkout https://github.com/crystal-community/msgpack-crystal
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "spider-gazelle/openssl_ext" {
@@ -206,6 +246,8 @@ function setup() {
   shard_checkout https://github.com/spider-gazelle/openssl_ext
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "gdotdesign/cr-dotenv" {
@@ -219,6 +261,8 @@ function setup() {
   shard_checkout https://github.com/maiha/pretty.cr
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "straight-shoota/crinja" {
@@ -227,6 +271,8 @@ function setup() {
   shard_checkout https://github.com/straight-shoota/crinja
 
   crystal_spec
+
+  crystal_format
 
   cd examples
   bats integration_test.bats
