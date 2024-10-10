@@ -5,7 +5,7 @@ function setup_file() {
 
   git_checkout https://github.com/athena-framework/athena
 
-  $SHARDS install
+  SHARDS_OVERRIDE=shard.dev.yml $SHARDS install
 }
 
 function setup() {
