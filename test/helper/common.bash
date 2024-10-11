@@ -38,3 +38,15 @@ function shard_checkout() {
 function crystal_spec() {
   $CRYSTAL spec --junit_output ".junit/interpreter-std_spec.$BATS_TEST_NAME.xml"
 }
+
+function crystal_format() {
+  $CRYSTAL tool format --check || {
+    retval=$?
+
+    # Print formatter diff
+    $CRYSTAL tool format
+    git diff && git checkout -- .
+
+    return $retval
+  }
+}
