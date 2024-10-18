@@ -11,6 +11,8 @@ function setup() {
   shard_checkout https://github.com/ysbaddaden/minitest.cr
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "arctic-fox/spectator" {
@@ -18,6 +20,8 @@ function setup() {
   shard_checkout https://gitlab.com/arctic-fox/spectator
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "crystal-community/timecop.cr" {
@@ -25,6 +29,8 @@ function setup() {
   shard_checkout https://github.com/crystal-community/timecop.cr
 
   crystal_spec
+
+  crystal_format
 }
 
 @test "manastech/webmock.cr" {
@@ -32,4 +38,6 @@ function setup() {
   shard_checkout https://github.com/manastech/webmock.cr
 
   crystal_spec
+
+  crystal_format
 }
