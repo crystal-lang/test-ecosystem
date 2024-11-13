@@ -169,7 +169,7 @@ jobs:
         env:
           POSTGRES_HOST_AUTH_METHOD: trust
       mysql:
-        image: mysql:9.0
+        image: mysql:9.1
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
       redis:
@@ -203,7 +203,7 @@ jobs:
         with:
           args: /bin/sh -c "psql -U postgres -h postgres -f ./test-ecosystem/scripts/pg-init.sql"
       - name: Initialize mysql
-        uses: docker://mysql:9.0
+        uses: docker://mysql:9.1
         with:
           args: /bin/sh -c "mysql -uroot -h mysql < ./test-ecosystem/scripts/mysql-init.sql"
       - name: Configure git

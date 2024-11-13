@@ -13,7 +13,7 @@ MAKE="${MAKE:-make${EXE}}"
 
 function git_checkout() {
   local URL="$1"
-  local TARGET="$BATS_TMPDIR/${1##*/}"
+  local TARGET="$BATS_TMPDIR/workdir/${1##*/}"
 
   if [ -d "$TARGET" ]; then
     cd "$TARGET" || exit 1
