@@ -50,3 +50,9 @@ function crystal_format() {
     return $retval
   }
 }
+
+function check_crystal_format() {
+  shard_checkout "$1"
+
+  crystal_format
+}

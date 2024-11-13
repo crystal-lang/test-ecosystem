@@ -17,6 +17,9 @@ function setup() {
   fi
 
   crystal_spec
+}
 
-  crystal_format
+# bats test_tags=format
+@test "format crystal-ameba/ameba" {
+  check_crystal_format https://github.com/crystal-ameba/ameba
 }

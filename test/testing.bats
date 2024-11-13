@@ -11,8 +11,11 @@ function setup() {
   shard_checkout https://github.com/ysbaddaden/minitest.cr
 
   crystal_spec
+}
 
-  crystal_format
+# bats test_tags=format
+@test "format ysbaddaden/minitest.cr" {
+  check_crystal_format https://github.com/ysbaddaden/minitest.cr
 }
 
 @test "arctic-fox/spectator" {
@@ -20,8 +23,11 @@ function setup() {
   shard_checkout https://gitlab.com/arctic-fox/spectator
 
   crystal_spec
+}
 
-  crystal_format
+# bats test_tags=format
+@test "format arctic-fox/spectator" {
+  check_crystal_format https://github.com/arctic-fox/spectator
 }
 
 @test "crystal-community/timecop.cr" {
@@ -29,8 +35,11 @@ function setup() {
   shard_checkout https://github.com/crystal-community/timecop.cr
 
   crystal_spec
+}
 
-  crystal_format
+# bats test_tags=format
+@test "format crystal-community/timecop.cr" {
+  check_crystal_format https://github.com/crystal-community/timecop.cr
 }
 
 @test "manastech/webmock.cr" {
@@ -38,6 +47,9 @@ function setup() {
   shard_checkout https://github.com/manastech/webmock.cr
 
   crystal_spec
+}
 
-  crystal_format
+# bats test_tags=format
+@test "format manastech/webmock.cr" {
+  check_crystal_format https://github.com/manastech/webmock.cr
 }
