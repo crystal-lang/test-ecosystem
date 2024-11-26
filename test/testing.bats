@@ -13,11 +13,21 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format ysbaddaden/minitest.cr" {
+  check_crystal_format https://github.com/ysbaddaden/minitest.cr
+}
+
 @test "arctic-fox/spectator" {
   skip "Does not build"
   shard_checkout https://gitlab.com/arctic-fox/spectator
 
   crystal_spec
+}
+
+# bats test_tags=format
+@test "format arctic-fox/spectator" {
+  check_crystal_format https://github.com/arctic-fox/spectator
 }
 
 @test "crystal-community/timecop.cr" {
@@ -27,9 +37,19 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format crystal-community/timecop.cr" {
+  check_crystal_format https://github.com/crystal-community/timecop.cr
+}
+
 @test "manastech/webmock.cr" {
   skiponwindows "Specs are failing"
   shard_checkout https://github.com/manastech/webmock.cr
 
   crystal_spec
+}
+
+# bats test_tags=format
+@test "format manastech/webmock.cr" {
+  check_crystal_format https://github.com/manastech/webmock.cr
 }

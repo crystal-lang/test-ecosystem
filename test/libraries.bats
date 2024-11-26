@@ -16,6 +16,11 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format Sija/backtracer.cr" {
+  check_crystal_format https://github.com/Sija/backtracer.cr
+}
+
 # bats test_tags=openssl
 @test "crystal-loot/exception_page" {
   skip "Specs are failing (https://github.com/crystal-loot/exception_page/issues/39)"
@@ -25,10 +30,20 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format crystal-loot/exception_page" {
+  check_crystal_format https://github.com/crystal-loot/exception_page
+}
+
 @test "luislavena/radix" {
   shard_checkout https://github.com/luislavena/radix
 
   crystal_spec
+}
+
+# bats test_tags=format
+@test "format luislavena/radix" {
+  check_crystal_format https://github.com/luislavena/radix
 }
 
 @test "ysbaddaden/pool" {
@@ -43,16 +58,31 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format luckyframework/habitat" {
+  check_crystal_format https://github.com/luckyframework/habitat
+}
+
 @test "luckyframework/wordsmith" {
   shard_checkout https://github.com/luckyframework/wordsmith
 
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format luckyframework/wordsmith" {
+  check_crystal_format https://github.com/luckyframework/wordsmith
+}
+
 @test "crystal-community/future.cr" {
   shard_checkout https://github.com/crystal-community/future.cr
 
   crystal_spec
+}
+
+# bats test_tags=format
+@test "format crystal-community/future.cr" {
+  check_crystal_format https://github.com/crystal-community/future.cr
 }
 
 @test "schovi/baked_file_system" {
@@ -81,10 +111,20 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format luckyframework/lucky_task" {
+  check_crystal_format https://github.com/luckyframework/lucky_task
+}
+
 @test "spider-gazelle/bindata" {
   shard_checkout https://github.com/spider-gazelle/bindata
 
   crystal_spec
+}
+
+# bats test_tags=format
+@test "format spider-gazelle/bindata" {
+  check_crystal_format https://github.com/spider-gazelle/bindata
 }
 
 # bats test_tags=openssl
@@ -92,6 +132,11 @@ function setup() {
   shard_checkout https://github.com/kemalcr/kemal-session
 
   crystal_spec
+}
+
+# bats test_tags=format
+@test "format kemalcr/kemal-session" {
+  check_crystal_format https://github.com/kemalcr/kemal-session
 }
 
 # bats test_tags=openssl
@@ -106,6 +151,11 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format kemalcr/kemal" {
+  check_crystal_format https://github.com/kemalcr/kemal
+}
+
 @test "luckyframework/teeplate" {
   skip "Wants to sign git commit"
   skiponwindows "Does not build"
@@ -114,10 +164,20 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format luckyframework/teeplate" {
+  check_crystal_format https://github.com/luckyframework/teeplate
+}
+
 @test "icyleaf/markd" {
   shard_checkout https://github.com/icyleaf/markd
 
   crystal_spec
+}
+
+# bats test_tags=format
+@test "format icyleaf/markd" {
+  check_crystal_format https://github.com/icyleaf/markd
 }
 
 @test "crystal-lang/json_mapping.cr" {
@@ -125,6 +185,11 @@ function setup() {
   shard_checkout https://github.com/crystal-lang/json_mapping.cr
 
   crystal_spec
+}
+
+# bats test_tags=format
+@test "format crystal-lang/json_mapping.cr" {
+  check_crystal_format https://github.com/crystal-lang/json_mapping.cr
 }
 
 @test "stumpycr/stumpy_png" {
@@ -135,6 +200,11 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format stumpycr/stumpy_png" {
+  check_crystal_format https://github.com/stumpycr/stumpy_png
+}
+
 @test "luckyframework/shell-table.cr" {
   skip "Specs are failing"
   shard_checkout https://github.com/luckyframework/shell-table.cr
@@ -142,11 +212,21 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format luckyframework/shell-table.cr" {
+  check_crystal_format https://github.com/luckyframework/shell-table.cr
+}
+
 @test "phoffer/inflector.cr" {
   skip "Specs are failing"
   shard_checkout https://github.com/phoffer/inflector.cr
 
   crystal_spec
+}
+
+# bats test_tags=format
+@test "format phoffer/inflector.cr" {
+  check_crystal_format https://github.com/phoffer/inflector.cr
 }
 
 # bats test_tags=cmake
@@ -163,6 +243,11 @@ function setup() {
   shard_checkout https://github.com/icyleaf/halite
 
   crystal_spec
+}
+
+# bats test_tags=format
+@test "format icyleaf/halite" {
+  check_crystal_format https://github.com/icyleaf/halite
 }
 
 @test "jwaldrip/admiral.cr" {
@@ -188,6 +273,11 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format vladfaust/time_format.cr" {
+  check_crystal_format https://github.com/vladfaust/time_format.cr
+}
+
 @test "mamantoha/http_proxy" {
   skiponwindows "Specs are failing"
   shard_checkout https://github.com/mamantoha/http_proxy
@@ -195,10 +285,20 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format mamantoha/http_proxy" {
+  check_crystal_format https://github.com/mamantoha/http_proxy
+}
+
 @test "crystal-community/msgpack-crystal" {
   shard_checkout https://github.com/crystal-community/msgpack-crystal
 
   crystal_spec
+}
+
+# bats test_tags=format
+@test "format crystal-community/msgpack-crystal" {
+  check_crystal_format https://github.com/crystal-community/msgpack-crystal
 }
 
 @test "spider-gazelle/openssl_ext" {
@@ -221,6 +321,11 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format maiha/pretty.cr" {
+  check_crystal_format https://github.com/maiha/pretty.cr
+}
+
 @test "straight-shoota/crinja" {
   skiponwindows "Specs are failing"
 
@@ -231,3 +336,9 @@ function setup() {
   cd examples
   bats integration_test.bats
 }
+
+# bats test_tags=format
+@test "format straight-shoota/crinja" {
+  check_crystal_format https://github.com/straight-shoota/crinja
+}
+
