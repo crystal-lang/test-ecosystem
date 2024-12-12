@@ -8,6 +8,9 @@ on:
       crystal:
         type: string
         default: nightly
+      crystal_baseline:
+        type: string
+        default: latest
       shards:
         type: string
         default: nightly
@@ -57,7 +60,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: crystal-lang/install-crystal@v1
+      - id: install-crystal-baseline
+        name: Install Crystal base version
+        uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: ${{ github.event.inputs.crystal_baseline || 'latest' }}
+          shards: false
+          destination: crystal-base
+
+      - name: Install Crystal test version
+        uses: crystal-lang/install-crystal@v1
         with:
           crystal: ${{ github.event.inputs.crystal || 'nightly' }}
           shards: ${{ github.event.inputs.shards || 'nightly' }}
@@ -76,3 +88,4 @@ jobs:
         env:
           WINDOWS_BASE_DIR: "/d/a"
           TERM: dumb
+          CRYSTAL_BASELINE: "${{ steps.install-crystal-baseline.outputs.path }}/bin/crystal"
