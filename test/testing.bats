@@ -27,7 +27,7 @@ function setup() {
 
 # bats test_tags=format
 @test "format arctic-fox/spectator" {
-  check_crystal_format https://github.com/arctic-fox/spectator
+  check_crystal_format https://gitlab.com/arctic-fox/spectator
 }
 
 @test "crystal-community/timecop.cr" {
