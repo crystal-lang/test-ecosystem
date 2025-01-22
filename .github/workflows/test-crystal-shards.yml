@@ -165,11 +165,11 @@ jobs:
     container: ubuntu:latest
     services:
       postgres:
-        image: postgres:17.0-alpine
+        image: postgres:17.2-alpine
         env:
           POSTGRES_HOST_AUTH_METHOD: trust
       mysql:
-        image: mysql:9.1
+        image: mysql:9.2
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
       redis:
@@ -199,11 +199,11 @@ jobs:
           ./test-ecosystem/scripts/apt-install-crystal-deps.sh
           ./test-ecosystem/scripts/00-install-bats.sh
       - name: Initialize postgres
-        uses: docker://postgres:17.0-alpine
+        uses: docker://postgres:17.2-alpine
         with:
           args: /bin/sh -c "psql -U postgres -h postgres -f ./test-ecosystem/scripts/pg-init.sql"
       - name: Initialize mysql
-        uses: docker://mysql:9.1
+        uses: docker://mysql:9.2
         with:
           args: /bin/sh -c "mysql -uroot -h mysql < ./test-ecosystem/scripts/mysql-init.sql"
       - name: Configure git
