@@ -93,6 +93,7 @@ function setup() {
 }
 
 @test "jeromegn/kilt" {
+  skip "Liquid spec is broken (https://github.com/jeromegn/kilt/issues/30)"
   skiponwindows "Does not build"
   shard_checkout https://github.com/jeromegn/kilt
 
