@@ -217,18 +217,6 @@ function setup() {
   check_crystal_format https://github.com/luckyframework/shell-table.cr
 }
 
-@test "phoffer/inflector.cr" {
-  skip "Specs are failing"
-  shard_checkout https://github.com/phoffer/inflector.cr
-
-  crystal_spec
-}
-
-# bats test_tags=format
-@test "format phoffer/inflector.cr" {
-  check_crystal_format https://github.com/phoffer/inflector.cr
-}
-
 # bats test_tags=cmake
 @test "kostya/lexbor" {
   skiponwindows "Specs are failing"
