@@ -25,7 +25,7 @@ function git_checkout() {
     cd "$TARGET" || exit 1
   fi
 
-  git describe
+  git describe --tags
 }
 
 function shard_checkout() {
