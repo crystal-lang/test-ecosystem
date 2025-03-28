@@ -24,6 +24,8 @@ function git_checkout() {
     git clone --recursive "$URL" "$TARGET"
     cd "$TARGET" || exit 1
   fi
+
+  git describe --tags
 }
 
 function shard_checkout() {
