@@ -125,6 +125,7 @@ function setup() {
 
 # bats test_tags=format
 @test "format spider-gazelle/bindata" {
+  skip "Formatting not up to date"
   check_crystal_format https://github.com/spider-gazelle/bindata
 }
 
@@ -236,6 +237,7 @@ function setup() {
 
 # bats test_tags=format
 @test "format icyleaf/halite" {
+  skip "Formatting not up to date"
   check_crystal_format https://github.com/icyleaf/halite
 }
 
@@ -287,6 +289,7 @@ function setup() {
 
 # bats test_tags=format
 @test "format crystal-community/msgpack-crystal" {
+  skip "Formatting not up to date"
   check_crystal_format https://github.com/crystal-community/msgpack-crystal
 }
 
@@ -312,6 +315,7 @@ function setup() {
 
 # bats test_tags=format
 @test "format maiha/pretty.cr" {
+  skip "Formatting not up to date"
   check_crystal_format https://github.com/maiha/pretty.cr
 }
 
