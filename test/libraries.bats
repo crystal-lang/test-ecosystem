@@ -289,6 +289,7 @@ function setup() {
 
 # bats test_tags=format
 @test "format crystal-community/msgpack-crystal" {
+  skip "Formatting not up to date"
   check_crystal_format https://github.com/crystal-community/msgpack-crystal
 }
 
