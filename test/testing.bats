@@ -34,6 +34,21 @@ function setup() {
   skiponwindows "Timeout"
   shard_checkout https://github.com/crystal-community/timecop.cr
 
+  # https://github.com/crystal-community/timecop.cr/issues/12
+  git apply <<-DIFF
+--- i/spec/timecop_spec.cr
++++ w/spec/timecop_spec.cr
+@@ -97,7 +97,7 @@ describe Timecop do
+   end
+
+   context ".scale" do
+-    it "keeps time moving at an accelerated rate" do
++    pending "keeps time moving at an accelerated rate" do
+       time = Time.local(2008, 10, 10, 10, 10, 10)
+       Timecop.scale(time, 4) do
+         start = Time.local
+DIFF
+
   crystal_spec
 }
 
