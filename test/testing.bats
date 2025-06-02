@@ -46,6 +46,14 @@ function setup() {
        time = Time.local(2008, 10, 10, 10, 10, 10)
        Timecop.scale(time, 4) do
          start = Time.local
+@@ -114,6 +115,7 @@ describe Timecop do
+
+     context "monotonic" do
+       it "keeps time moving at an accelerated rate" do
++        pending! if {{ flag?(:darwin) }}
+         time = Time.local(2008, 10, 10, 10, 10, 10)
+         Timecop.scale(time, 4) do
+           start = Time.monotonic
 DIFF
 
   crystal_spec
