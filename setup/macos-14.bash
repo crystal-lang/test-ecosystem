@@ -1,1 +1,1 @@
-setup/macos-all.bash
+./macos-all.bash
