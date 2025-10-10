@@ -1,0 +1,1 @@
+./macos-all.bash

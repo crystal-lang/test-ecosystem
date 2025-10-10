@@ -27,7 +27,7 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: crystal-lang/install-crystal@v1
         with:
@@ -42,6 +42,9 @@ jobs:
       - name: Configure git to not checkout CRLF
         run: git config --global --add core.autocrlf false
 
+      - name: Install OS-specific dependencies
+        run: bash ./setup/${{ matrix.os }}.bash
+
       - name: Test
         run: |
           bats --pretty --timing test --filter-tags !format
@@ -55,7 +58,7 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: crystal-lang/install-crystal@v1
         with:
