@@ -29,40 +29,17 @@ jobs:
           echo "files=$files" >> "$GITHUB_OUTPUT"
   test:
     needs: list-tests
-    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-24.04, windows-2022, macos-15-intel, macos-15]
-        file: ${{ fromJson(needs.list-tests.outputs.files) }}
-    defaults:
-      run:
-        shell: bash
-    steps:
-      - uses: actions/checkout@v5
 
-      - uses: crystal-lang/install-crystal@v1
-        with:
-          crystal: ${{ github.event.inputs.crystal || 'nightly' }}
-          shards: ${{ github.event.inputs.shards || 'nightly' }}
-
-      - name: Setup BATS
-        uses: mig4/setup-bats@v1
-        with:
-          bats-version: 1.9.0
-
-      - name: Configure git to not checkout CRLF
-        run: git config --global --add core.autocrlf false
-
-      - name: Install OS-specific dependencies
-        run: bash ./setup/${{ matrix.os }}.bash
-
-      - name: Test
-        run: |
-          bats --pretty --timing --filter-tags !format "test/${{ matrix.file }}"
-        env:
-          WINDOWS_BASE_DIR: "/d/a"
-          TERM: dumb
+    uses: ./.github/workflows/bats.yml
+    with:
+      machine: ${{ matrix.os }}
+      files: ${{ needs.list-tests.outputs.files }}
+      crystal: ${{ github.events.inputs.crystal }}
+      shards: ${{ github.events.inputs.shards }}
 
   test_format:
     runs-on: ubuntu-24.04
