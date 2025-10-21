@@ -1,0 +1,54 @@
+name: Bats
+
+on:
+  workflow_call:
+    inputs:
+      crystal:
+        type: string
+        default: nightly
+      shards:
+        type: string
+        default: nightly
+      machine:
+        required: true
+        type: string
+      files:
+        required: true
+        type: string
+
+jobs:
+  run-bats:
+    runs-on: ${{ inputs.machine }}
+    strategy:
+      fail-fast: false
+      matrix:
+        file: ${{ fromJson(inputs.files) }}
+
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: ${{ inputs.crystal || 'nightly' }}
+          shards: ${{ inputs.shards || 'nightly' }}
+
+      - name: Setup BATS
+        uses: mig4/setup-bats@v1
+        with:
+          bats-version: 1.9.0
+
+      - name: Configure git to not checkout CRLF
+        run: git config --global --add core.autocrlf false
+
+      - name: Install OS-specific dependencies
+        run: bash ./setup/${{ inputs.machine }}.bash
+
+      - name: Test
+        run: |
+          bats --pretty --timing --filter-tags !format "test/${{ matrix.file }}"
+        env:
+          WINDOWS_BASE_DIR: "/d/a"
+          TERM: dumb
