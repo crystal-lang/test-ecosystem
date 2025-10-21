@@ -38,8 +38,8 @@ jobs:
     with:
       machine: ${{ matrix.os }}
       files: ${{ needs.list-tests.outputs.files }}
-      crystal: ${{ github.events.inputs.crystal }}
-      shards: ${{ github.events.inputs.shards }}
+      crystal: ${{ github.event.inputs.crystal || 'nightly' }}
+      shards: ${{ github.event.inputs.shards || 'nightly' }}
 
   test_format:
     runs-on: ubuntu-24.04
