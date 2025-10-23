@@ -182,18 +182,6 @@ function setup() {
   check_crystal_format https://github.com/icyleaf/markd
 }
 
-@test "crystal-lang/json_mapping.cr" {
-  skiponwindows "Does not build"
-  shard_checkout https://github.com/crystal-lang/json_mapping.cr
-
-  crystal_spec
-}
-
-# bats test_tags=format
-@test "format crystal-lang/json_mapping.cr" {
-  check_crystal_format https://github.com/crystal-lang/json_mapping.cr
-}
-
 @test "stumpycr/stumpy_png" {
   skip "Incompatible with modern Crystal"
   skiponwindows "Specs are failing"
