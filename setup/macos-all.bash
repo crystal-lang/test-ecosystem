@@ -1,4 +1,4 @@
 #!/bin/bash
 
-brew install libmagic
+brew install libmagic lz4 etcd
 
