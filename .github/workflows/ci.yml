@@ -22,7 +22,7 @@ jobs:
     outputs:
       files: ${{ steps.list.outputs.files }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - id: list
         run: |
           files=$(find test -type f -name '*.bats' -print0 | sed -z 's|^test/||' | jq -Rs -c 'split("\u0000")[:-1]')
