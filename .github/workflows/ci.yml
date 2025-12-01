@@ -22,7 +22,7 @@ jobs:
     outputs:
       files: ${{ steps.list.outputs.files }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - id: list
         run: |
           files=$(find test -type f -name '*.bats' -print0 | sed -z 's|^test/||' | jq -Rs -c 'split("\u0000")[:-1]')
@@ -47,7 +47,7 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: crystal-lang/install-crystal@v1
         with:
