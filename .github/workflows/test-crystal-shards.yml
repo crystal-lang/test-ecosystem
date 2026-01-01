@@ -98,7 +98,7 @@ jobs:
           cat ../build-cache-key
       - name: Build cache
         id: build-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ./crystal/.build/crystal
@@ -124,7 +124,7 @@ jobs:
           make bin/shards CRYSTAL=../crystal/bin/crystal
           bin/shards --version
       - name: Artifact (with permissions)
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ./test-ecosystem
@@ -177,7 +177,7 @@ jobs:
     needs: build
     steps:
       - name: Artifact (with permissions)
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ./test-ecosystem
