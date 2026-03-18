@@ -8,6 +8,7 @@ fi
 
 EXE="${EXE:-}"
 CRYSTAL="${CRYSTAL:-crystal${EXE}}"
+CRYSTAL_BASE="${CRYSTAL_BASE:-crystal${EXE}}"
 SHARDS="${SHARDS:-shards${EXE}}"
 MAKE="${MAKE:-make${EXE}}"
 
@@ -53,8 +54,29 @@ function crystal_format() {
   }
 }
 
+function crystal_format_with_base() {
+  echo "Running '$CRYSTAL_BASE tool format' for a baseline"
+  $CRYSTAL_BASE tool format
+  git add -u
+
+  crystal_format || {
+    retval=$?
+
+    git reset --hard HEAD
+    return $retval
+  }
+
+  git diff --check || echo "Baseline formatting issues detected, but no formatting changes on top of baseline"
+  git reset --hard HEAD
+}
+
 function check_crystal_format() {
   shard_checkout "$1"
 
-  crystal_format
+  if [ "$CRYSTAL" != "$CRYSTAL_BASE" ]; then
+    crystal_format_with_base
+  else
+    crystal_format
+  fi
+
 }
