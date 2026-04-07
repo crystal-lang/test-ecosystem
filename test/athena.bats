@@ -58,6 +58,5 @@ function test_component() {
 
 # bats test_tags=format
 @test "format athena-framework/athena" {
-  skip "Installing ameba breaks shards (https://github.com/crystal-lang/test-ecosystem/pull/89#issuecomment-4089134332)"
   check_crystal_format https://github.com/athena-framework/athena
 }
