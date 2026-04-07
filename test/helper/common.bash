@@ -26,7 +26,7 @@ function git_checkout() {
     cd "$TARGET" || exit 1
   fi
 
-  git describe --tags
+  git describe --tags || git rev-parse HEAD
 }
 
 function shard_checkout() {
@@ -48,7 +48,7 @@ function crystal_format() {
 
     # Print formatter diff
     $CRYSTAL tool format
-    git diff && git checkout -- .
+    git diff
 
     return $retval
   }
@@ -59,14 +59,11 @@ function crystal_format_with_base() {
   $CRYSTAL_BASE tool format
   git add -u
 
-  crystal_format || {
-    retval=$?
+  crystal_format
 
-    git reset --hard HEAD
-    return $retval
-  }
 
-  git diff --check || echo "Baseline formatting issues detected, but no formatting changes on top of baseline"
+  git diff --cached --check || echo "Baseline formatting issues detected, but no formatting changes on top of baseline"
+  git diff --cached
   git reset --hard HEAD
 }
 
