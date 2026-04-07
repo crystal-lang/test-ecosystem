@@ -12,13 +12,17 @@ CRYSTAL_BASE="${CRYSTAL_BASE:-crystal${EXE}}"
 SHARDS="${SHARDS:-shards${EXE}}"
 MAKE="${MAKE:-make${EXE}}"
 
+export GIT_TERMINAL_PROMPT=0
+
 function git_checkout() {
   local URL="$1"
   local TARGET="$BATS_TMPDIR/workdir/${1##*/}"
 
+  echo "==> Checking out $URL to $TARGET"
+
   if [ -d "$TARGET" ]; then
     cd "$TARGET" || exit 1
-    git checkout --force origin/HEAD
+    git -c advice.detachedHead=false checkout --force origin/HEAD
     git pull origin HEAD
     git submodule update --init
   else
@@ -26,6 +30,7 @@ function git_checkout() {
     cd "$TARGET" || exit 1
   fi
 
+  printf "==> Git version:"
   git describe --tags || git rev-parse HEAD
 }
 
@@ -43,24 +48,28 @@ function crystal_spec() {
 }
 
 function crystal_format() {
+  echo "==> Running '$CRYSTAL tool format --check'"
+
   $CRYSTAL tool format --check || {
     retval=$?
 
     # Print formatter diff
     $CRYSTAL tool format
     git diff
-
     return $retval
   }
+
+  echo
 }
 
 function crystal_format_with_base() {
-  echo "Running '$CRYSTAL_BASE tool format' for a baseline"
+  echo "==> Running '$CRYSTAL_BASE tool format' for a baseline"
   $CRYSTAL_BASE tool format
   git add -u
 
   crystal_format
 
+  echo
 
   git diff --cached --check || echo "Baseline formatting issues detected, but no formatting changes on top of baseline"
   git diff --cached
@@ -75,5 +84,4 @@ function check_crystal_format() {
   else
     crystal_format
   fi
-
 }
