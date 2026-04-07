@@ -77,7 +77,7 @@ function crystal_format_with_base() {
 }
 
 function check_crystal_format() {
-  shard_checkout "$1"
+  git_checkout "$1"
 
   if [ "$CRYSTAL" != "$CRYSTAL_BASE" ]; then
     crystal_format_with_base
