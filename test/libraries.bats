@@ -52,6 +52,11 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format ysbaddaden/pool" {
+  check_crystal_format https://github.com/ysbaddaden/pool
+}
+
 @test "luckyframework/habitat" {
   shard_checkout https://github.com/luckyframework/habitat
 
@@ -92,6 +97,11 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format schovi/baked_file_system" {
+  check_crystal_format https://github.com/schovi/baked_file_system
+}
+
 @test "jeromegn/kilt" {
   skip "Liquid spec is broken (https://github.com/jeromegn/kilt/issues/30)"
   skiponwindows "Does not build"
@@ -100,10 +110,20 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format jeromegn/kilt" {
+  check_crystal_format https://github.com/jeromegn/kilt
+}
+
 @test "sumpycr/stumpy_core" {
   shard_checkout https://github.com/stumpycr/stumpy_core
 
   crystal_spec
+}
+
+# bats test_tags=format
+@test "format sumpycr/stumpy_core" {
+  check_crystal_format https://github.com/stumpycr/stumpy_core
 }
 
 @test "luckyframework/lucky_task" {
@@ -125,7 +145,6 @@ function setup() {
 
 # bats test_tags=format
 @test "format spider-gazelle/bindata" {
-  skip "Formatting not up to date"
   check_crystal_format https://github.com/spider-gazelle/bindata
 }
 
@@ -216,6 +235,11 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format kostya/lexbor" {
+  check_crystal_format https://github.com/kostya/lexbor
+}
+
 @test "icyleaf/halite" {
   skiponwindows "Specs are failing"
   shard_checkout https://github.com/icyleaf/halite
@@ -225,7 +249,6 @@ function setup() {
 
 # bats test_tags=format
 @test "format icyleaf/halite" {
-  skip "Formatting not up to date"
   check_crystal_format https://github.com/icyleaf/halite
 }
 
@@ -233,6 +256,11 @@ function setup() {
   shard_checkout https://github.com/jwaldrip/admiral.cr
 
   crystal_spec
+}
+
+# bats test_tags=format
+@test "format jwaldrip/admiral.cr" {
+  check_crystal_format https://github.com/jwaldrip/admiral.cr
 }
 
 @test "jeromegn/slang" {
@@ -244,6 +272,11 @@ function setup() {
   shard_checkout https://github.com/jeromegn/slang
 
   crystal_spec
+}
+
+# bats test_tags=format
+@test "format jeromegn/slang" {
+  check_crystal_format https://github.com/jeromegn/slang
 }
 
 @test "vladfaust/time_format.cr" {
@@ -277,7 +310,6 @@ function setup() {
 
 # bats test_tags=format
 @test "format crystal-community/msgpack-crystal" {
-  skip "Formatting not up to date"
   check_crystal_format https://github.com/crystal-community/msgpack-crystal
 }
 
@@ -288,10 +320,20 @@ function setup() {
   crystal_spec
 }
 
+# bats test_tags=format
+@test "format spider-gazelle/openssl_ext" {
+  check_crystal_format https://github.com/spider-gazelle/openssl_ext
+}
+
 @test "gdotdesign/cr-dotenv" {
   shard_checkout https://github.com/gdotdesign/cr-dotenv
 
   crystal_spec
+}
+
+# bats test_tags=format
+@test "format gdotdesign/cr-dotenv" {
+  check_crystal_format https://github.com/gdotdesign/cr-dotenv
 }
 
 @test "maiha/pretty.cr" {
@@ -303,7 +345,6 @@ function setup() {
 
 # bats test_tags=format
 @test "format maiha/pretty.cr" {
-  skip "Formatting not up to date"
   check_crystal_format https://github.com/maiha/pretty.cr
 }
 

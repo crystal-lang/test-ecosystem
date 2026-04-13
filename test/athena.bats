@@ -55,3 +55,8 @@ function test_component() {
 @test "validator" {
   test_component "validator"
 }
+
+# bats test_tags=format
+@test "format athena-framework/athena" {
+  check_crystal_format https://github.com/athena-framework/athena
+}

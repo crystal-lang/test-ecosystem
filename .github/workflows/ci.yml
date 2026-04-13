@@ -8,6 +8,9 @@ on:
       crystal:
         type: string
         default: nightly
+      crystal_base:
+        type: string
+        default: latest
       shards:
         type: string
         default: nightly
@@ -49,10 +52,15 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: crystal-lang/install-crystal@v1
+      - name: Install baseline crystal formatter
+        uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: ${{ github.event.inputs.crystal_base || 'latest' }}
+          destination: /tmp/crystal-baseline/
+      - name: Install test target crystal formatter
+        uses: crystal-lang/install-crystal@v1
         with:
           crystal: ${{ github.event.inputs.crystal || 'nightly' }}
-          shards: ${{ github.event.inputs.shards || 'nightly' }}
 
       - name: Setup BATS
         uses: mig4/setup-bats@v1
@@ -68,3 +76,4 @@ jobs:
         env:
           WINDOWS_BASE_DIR: "/d/a"
           TERM: dumb
+          CRYSTAL_BASE: /tmp/crystal-baseline/bin/crystal
