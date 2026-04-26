@@ -12,48 +12,60 @@ function setup() {
   load helper/common.bash
 }
 
-function test_component() {
-  ./scripts/test.sh "$1"
+function test_shard() {
+  ./scripts/test.sh "$1" "${2:-all}" "${3:-component}"
 }
 
+@test "mercure_bundle" {
+  test_shard "mercure" "all" "bundle"
+}
 @test "clock" {
-  test_component "clock"
+  test_shard "clock"
 }
 @test "console" {
-  test_component "console"
+  test_shard "console"
 }
 @test "dependency_injection" {
-  test_component "dependency_injection"
+  test_shard "dependency_injection"
 }
 @test "dotenv" {
-  test_component "dotenv"
+  test_shard "dotenv"
 }
 @test "event_dispatcher" {
-  test_component "event_dispatcher"
+  test_shard "event_dispatcher"
 }
 @test "framework" {
-  test_component "framework"
+  test_shard "framework"
+}
+@test "http" {
+  test_shard "http"
+}
+@test "http_kernel" {
+  test_shard "http_kernel"
 }
 @test "image_size" {
-  test_component "image_size"
+  test_shard "image_size"
 }
 @test "mercure" {
-  test_component "mercure"
+  test_shard "mercure"
+}
+@test "mime" {
+  test_shard "mime"
 }
 @test "negotiation" {
-  test_component "negotiation"
+  test_shard "negotiation"
 }
 @test "routing" {
-  test_component "routing"
+  test_shard "routing"
 }
 @test "serializer" {
-  test_component "serializer"
+  test_shard "serializer"
 }
 @test "spec" {
-  test_component "spec"
+  test_shard "spec"
 }
 @test "validator" {
-  test_component "validator"
+  test_shard "validator"
 }
 
 # bats test_tags=format
