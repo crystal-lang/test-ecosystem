@@ -16,7 +16,14 @@ export GIT_TERMINAL_PROMPT=0
 
 function git_checkout() {
   local URL="$1"
-  local TARGET="$BATS_TMPDIR/workdir/${1##*/}"
+  # Transform URL into a filesystem path, stripping the protocol and replacing special characters with underscores
+  local LOCAL_PATH
+  LOCAL_PATH="$(printf '%s' "$URL" |
+    sed -E '
+      s#^[a-zA-Z]+://##;
+      s#[?&=:#]#_#g
+    ')"
+  local TARGET="$BATS_TMPDIR/workdir/${LOCAL_PATH}"
 
   echo "==> Checking out $URL to $TARGET"
 
