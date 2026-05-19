@@ -3,9 +3,8 @@
 function setup_file() {
   load helper/common.bash
 
-  git_checkout https://github.com/athena-framework/athena
-
-  SHARDS_OVERRIDE=shard.dev.yml $SHARDS install
+  export SHARDS_OVERRIDE=shard.dev.yml
+  shard_checkout https://github.com/athena-framework/athena
 }
 
 function setup() {
