@@ -45,7 +45,7 @@ jobs:
       shards: ${{ github.event.inputs.shards || 'nightly' }}
 
   test_format:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     defaults:
       run:
         shell: bash
