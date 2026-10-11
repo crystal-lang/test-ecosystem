@@ -53,7 +53,7 @@ jobs:
       - uses: actions/checkout@v7
 
       - name: Install baseline crystal formatter
-        uses: crystal-lang/install-crystal@v1
+        uses: crystal-lang/install-crystal@test/fix/download-destination
         with:
           crystal: ${{ github.event.inputs.crystal_base || 'latest' }}
           destination: /tmp/crystal-baseline/
